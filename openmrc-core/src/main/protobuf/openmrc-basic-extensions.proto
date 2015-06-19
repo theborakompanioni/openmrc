@@ -1,0 +1,26 @@
+
+syntax = "proto2";
+package org.tbk.openmrc;
+option java_outer_classname = "OpenMrcExtensions";
+
+import "openmrc.proto";
+
+message Browser {
+    extend Request {
+        optional Browser browser = 1000;
+    }
+
+    required string version = 1 [default = "?"];
+    required string name = 2 [default = "?"];
+    required string manufacturer = 3 [default = "?"];
+}
+
+message OperatingSystem {
+    extend Request {
+        optional OperatingSystem operatingSystem = 1001;
+    }
+
+    required string version = 1 [default = "?"];
+    required string name = 2 [default = "?"];
+    required string manufacturer = 3 [default = "?"];
+}

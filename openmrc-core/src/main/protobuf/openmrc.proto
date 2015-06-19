@@ -1,0 +1,122 @@
+
+syntax = "proto2";
+package org.tbk.openmrc;
+option java_outer_classname = "OpenMrc";
+
+enum Visibility {
+    VISIBLE = 1;
+    FULLYVISIBLE = 2;
+    HIDDEN = 3;
+}
+
+enum RequestType {
+    GENERIC = 1;
+    INITIAL = 2;
+    STATUS = 3;
+    SUMMARY = 4;
+}
+
+message Request {
+    required RequestType type = 1 [default = GENERIC];
+
+    /*
+     * Unique Session ID of the request, provided by the client.
+     */
+    required string sessionId = 2;
+
+    /*
+     * Unique Monitor ID of the request, provided by the client.
+     * The monitor executing the request
+     */
+    required string monitorId = 3;
+
+    optional Viewport viewport = 4;
+
+    optional InitialContext initial = 5;
+
+    optional StatusContext status = 6;
+
+    optional SummaryContext summary = 7;
+
+    extensions 100 to 9999;
+}
+
+message Response {
+    required string id = 1;
+
+    optional ErrorReason error = 2;
+
+    extensions 100 to 9999;
+
+    enum ErrorReason {
+        UNKNOWN_ERROR = 0;
+        TECHNICAL_ERROR = 1;
+        INVALID_REQUEST = 2;
+        KNOWN_WEB_SPIDER = 3;
+        SUSPECTED_NONHUMAN_TRAFFIC = 4;
+        CLOUD_DATACENTER_PROXYIP = 5;
+        UNSUPPORTED_DEVICE = 6;
+        BLOCKED_PUBLISHER = 7;
+        UNMATCHED_USER = 8;
+    }
+}
+
+message InitialContext {
+    required int64 timeStarted = 1;
+    required VisibilityState state = 2;
+}
+
+message StatusContext {
+    repeated PercentageTimeTest test = 1;
+}
+
+message SummaryContext {
+    required VisibilityTimeReport report = 1;
+}
+
+message VisibilityState {
+    required int32 code = 1;
+    required Visibility state = 2;
+    required float percentage = 3;
+    required bool fullyvisible = 4;
+    required bool visible = 5;
+    required bool hidden = 6;
+}
+
+message Viewport {
+    required int32 width = 1;
+    required int32 height = 2;
+}
+
+message VisibilityTimeTestConfig {
+    required int32 interval = 1; // interval of the test in milliseconds
+
+    required float percentageLimit = 2; // between 0..1
+
+    required int32 timeLimit = 3; // time till test passes in milliseconds
+}
+
+message PercentageTimeTest {
+    required VisibilityState monitorState = 1;
+
+    required VisibilityTimeTestConfig testConfig = 2;
+
+    required VisibilityTimeReport timeReport = 3;
+}
+
+message VisibilityTimeReport {
+    required int64 timeStarted = 1;
+    required int64 duration = 2;
+    required int64 timeHidden = 3;
+    required int64 timeVisible = 4;
+    required int64 timeFullyVisible = 5;
+    required PercentageReport percentage = 6;
+
+    optional int64 timeRelativeVisible = 7;
+}
+
+message PercentageReport {
+    required float current = 1;
+    required float maximum = 2;
+    required float minimum = 3;
+}
