@@ -2,13 +2,15 @@ package org.tbk.openmrc.web;
 
 import com.codahale.metrics.MetricRegistry;
 import com.google.protobuf.ExtensionRegistry;
-import org.tbk.openmrc.OpenMrc;
+import org.tbk.openmrc.OpenMrcRequestConsumer;
+import org.tbk.openmrc.OpenMrcRequestInterceptor;
+import org.tbk.openmrc.LoggingRequestConsumer;
 import org.tbk.openmrc.mapper.StandardOpenMrcJsonMapper;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Created by void on 20.06.15.
@@ -36,8 +38,8 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
     }
 
     @Override
-    public List<Consumer<OpenMrc.Request>> openMrcRequestConsumer() {
-        return Collections.emptyList();
+    public List<OpenMrcRequestConsumer> openMrcRequestConsumer() {
+        return Arrays.asList(new LoggingRequestConsumer());
     }
 
     @Override

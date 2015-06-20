@@ -2,11 +2,11 @@ package org.tbk.openmrc.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.tbk.openmrc.OpenMrc;
+import org.tbk.openmrc.OpenMrcRequestInterceptor;
 import org.tbk.openmrc.mapper.StandardOpenMrcJsonMapper;
 
 import javax.annotation.Nullable;
@@ -27,12 +27,14 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
     private final StandardOpenMrcJsonMapper openMrcJsonMapper;
 
     private final List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptor;
+
     private final ObjectMapper mapper;
 
-    Function<OpenMrc.Response, Integer> getStatusCode = (response) -> {
+    private final Function<OpenMrc.Response, Integer> getStatusCode = (response) -> {
         if (!response.hasError()) {
             return 202; // accepted
         }
+
         switch (response.getError()) {
             case INVALID_REQUEST:
                 return 400;

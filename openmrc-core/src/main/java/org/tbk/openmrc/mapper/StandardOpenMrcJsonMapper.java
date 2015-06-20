@@ -44,8 +44,13 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
 
         try {
             JsonFormat.merge(request, extensionRegistry, builder);
-            validator.validate(builder);
         } catch (Exception e) {
+            throw new OpenMrcMappingException(e);
+        }
+
+        try {
+            validator.validate(builder);
+        } catch (OpenMrcValidator.OpenMrcValidationException e) {
             throw new OpenMrcMappingException(e);
         }
 
@@ -58,8 +63,13 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
 
         try {
             JsonFormat.merge(response, extensionRegistry, builder);
-            validator.validate(builder);
         } catch (Exception e) {
+            throw new OpenMrcMappingException(e);
+        }
+
+        try {
+            validator.validate(builder);
+        } catch (OpenMrcValidator.OpenMrcValidationException e) {
             throw new OpenMrcMappingException(e);
         }
 
