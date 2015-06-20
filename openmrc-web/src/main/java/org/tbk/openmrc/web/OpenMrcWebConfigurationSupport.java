@@ -2,14 +2,18 @@ package org.tbk.openmrc.web;
 
 import com.codahale.metrics.MetricRegistry;
 import com.google.protobuf.ExtensionRegistry;
+import org.tbk.openmrc.LoggingRequestConsumer;
+import org.tbk.openmrc.OpenMrcExtensions;
 import org.tbk.openmrc.OpenMrcRequestConsumer;
 import org.tbk.openmrc.OpenMrcRequestInterceptor;
-import org.tbk.openmrc.LoggingRequestConsumer;
+import org.tbk.openmrc.impl.BrowserRequestInterceptor;
+import org.tbk.openmrc.impl.OperatingSystemRequestInterceptor;
+import org.tbk.openmrc.mapper.OpenMrcHttpRequestMapper;
+import org.tbk.openmrc.mapper.StandardOpenMrcJsonHttpRequestMapper;
 import org.tbk.openmrc.mapper.StandardOpenMrcJsonMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +27,11 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
 
     @Override
     public ExtensionRegistry extensionRegistry() {
-        return ExtensionRegistry.newInstance();
+        ExtensionRegistry registry = ExtensionRegistry.newInstance();
+        registry.add(OpenMrcExtensions.Browser.browser);
+        registry.add(OpenMrcExtensions.OperatingSystem.operatingSystem);
+
+        return registry;
     }
 
     @Override
@@ -44,6 +52,9 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
 
     @Override
     public List<OpenMrcRequestInterceptor<HttpServletRequest>> httpRequestInterceptor() {
-        return Collections.emptyList();
+        return Arrays.asList(
+                new OperatingSystemRequestInterceptor(),
+                new BrowserRequestInterceptor()
+        );
     }
 }

@@ -1,6 +1,4 @@
-package org.tbk.openmrc.web;
-
-import org.tbk.openmrc.mapper.OpenMrcMapper;
+package org.tbk.openmrc.mapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

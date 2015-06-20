@@ -1,4 +1,4 @@
-package org.tbk.openmrc.web;
+package org.tbk.openmrc.mapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.tbk.openmrc.OpenMrc;
 import org.tbk.openmrc.OpenMrcRequestInterceptor;
-import org.tbk.openmrc.mapper.StandardOpenMrcJsonMapper;
 
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -44,6 +44,10 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
                 return 500;
         }
     };
+
+    public StandardOpenMrcJsonHttpRequestMapper(StandardOpenMrcJsonMapper standardOpenMrcJsonMapper) {
+        this(standardOpenMrcJsonMapper, Collections.emptyList());
+    }
 
     public StandardOpenMrcJsonHttpRequestMapper(StandardOpenMrcJsonMapper standardOpenMrcJsonMapper, List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptor) {
         this.openMrcJsonMapper = standardOpenMrcJsonMapper;
@@ -92,7 +96,7 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
                             (b1, b2) -> b1.mergeFrom(b2.buildPartial()));
 
         } catch (IOException e) {
-            log.error("IOExeption while parsing HttpServletRequest to OpenMrc.Request", e);
+            log.error("IOExeption while parsing HttpServletRequest as OpenMrc.Request", e);
             throw new OpenMrcMappingException(e);
         }
     }

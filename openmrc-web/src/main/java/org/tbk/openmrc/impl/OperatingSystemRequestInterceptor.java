@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by void on 20.06.15.
  */
-public class BrowserRequestInterceptor implements OpenMrcRequestInterceptor<HttpServletRequest> {
+public class OperatingSystemRequestInterceptor implements OpenMrcRequestInterceptor<HttpServletRequest> {
 
-    private static final Logger log = LoggerFactory.getLogger(BrowserRequestInterceptor.class);
+    private static final Logger log = LoggerFactory.getLogger(OperatingSystemRequestInterceptor.class);
 
-    private static final OpenMrcExtensions.Browser UNKNOWN = OpenMrcExtensions.Browser.newBuilder()
+    private static final OpenMrcExtensions.OperatingSystem UNKNOWN = OpenMrcExtensions.OperatingSystem.newBuilder()
             .setManufacturer("?")
             .setName("?")
             .setVersion("?")
@@ -24,15 +24,15 @@ public class BrowserRequestInterceptor implements OpenMrcRequestInterceptor<Http
 
     @Override
     public OpenMrc.Request.Builder intercept(HttpServletRequest context, OpenMrc.Request.Builder builder) {
-        if (builder.hasExtension(OpenMrcExtensions.Browser.browser)) {
+        if (builder.hasExtension(OpenMrcExtensions.OperatingSystem.operatingSystem)) {
             return builder;
         }
 
         try {
             String userAgentHeaderValue = Strings.nullToEmpty(context.getHeader("User-Agent"));
-            OpenMrcExtensions.Browser browser = extractBrowser(userAgentHeaderValue);
+            OpenMrcExtensions.OperatingSystem operatingSystem = extractOperatingSystem(userAgentHeaderValue);
 
-            builder.setExtension(OpenMrcExtensions.Browser.browser, browser);
+            builder.setExtension(OpenMrcExtensions.OperatingSystem.operatingSystem, operatingSystem);
         } catch (Exception e) {
             log.warn("Exeption while parsing UserAgent as OpenMrc.Request", e);
         }
@@ -40,7 +40,7 @@ public class BrowserRequestInterceptor implements OpenMrcRequestInterceptor<Http
         return builder;
     }
 
-    private OpenMrcExtensions.Browser extractBrowser(String userAgent) {
+    private OpenMrcExtensions.OperatingSystem extractOperatingSystem(String userAgent) {
         if (userAgent.isEmpty()) {
             return UNKNOWN;
         }

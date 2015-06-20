@@ -77,6 +77,14 @@ public class IntegrationTest {
     public void testWithInitialEventRequestBody() throws Exception {
         String requestJson = InitialRequests.json().standardInitialRequest();
         send(requestJson).andExpect(status().isAccepted());
+
+        String requestWithExtensionJson = InitialRequests.json().initialRequestWithBrowserExtension();
+        send(requestWithExtensionJson).andExpect(status().isAccepted());
+    }
+    @Test
+    public void testWithInitialEventWithBrowserExtensionRequestBody() throws Exception {
+        String requestWithExtensionJson = InitialRequests.json().initialRequestWithBrowserExtension();
+        send(requestWithExtensionJson).andExpect(status().isAccepted());
     }
 
     @Test
@@ -93,6 +101,7 @@ public class IntegrationTest {
 
     private ResultActions send(String json) throws Exception {
         return mockMvc.perform(post("/test/openmrc/consume")
+                .header("User-Agent", "Firefox")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(contentType)
                 .content(json));

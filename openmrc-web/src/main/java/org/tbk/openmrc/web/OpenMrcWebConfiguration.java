@@ -4,6 +4,7 @@ import com.codahale.metrics.MetricRegistry;
 import com.google.protobuf.ExtensionRegistry;
 import org.tbk.openmrc.OpenMrcRequestConsumer;
 import org.tbk.openmrc.OpenMrcRequestInterceptor;
+import org.tbk.openmrc.mapper.OpenMrcHttpRequestMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
