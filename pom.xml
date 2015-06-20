@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>openmrc-core</module>
+        <module>openmrc-web</module>
     </modules>
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -60,10 +61,13 @@
         <guavaVersion>18.0</guavaVersion>
         <fasterxmlJacksonVersion>2.5.3</fasterxmlJacksonVersion>
         <injectVersion>1</injectVersion>
+        <jackson.version>2.5.3</jackson.version>
         <junitVersion>4.12</junitVersion>
         <metricsVersion>3.0.2</metricsVersion>
         <protobufVersion>2.6.1</protobufVersion>
         <slf4jVersion>1.7.12</slf4jVersion>
+        <spring.version>4.1.5.RELEASE</spring.version>
+        <junit.version>4.11</junit.version>
 
         <!-- Plugin versions -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -81,6 +85,15 @@
         <cobertura.maxmem>1G</cobertura.maxmem>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>${slf4jVersion}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <reporting>
         <plugins>
             <plugin>

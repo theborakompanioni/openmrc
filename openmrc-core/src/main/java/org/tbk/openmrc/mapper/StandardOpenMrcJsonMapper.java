@@ -9,24 +9,11 @@ import org.tbk.openmrc.OpenMrc.Response;
 import org.tbk.openmrc.util.OpenMrcValidator;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, String, String> {
 
     private ExtensionRegistry extensionRegistry;
     private OpenMrcValidator validator;
-
-    public StandardOpenMrcJsonMapper() {
-        this(ExtensionRegistry.newInstance(), new MetricRegistry());
-    }
-
-    public StandardOpenMrcJsonMapper(MetricRegistry metricRegistry) {
-        this(ExtensionRegistry.newInstance(), metricRegistry);
-    }
-
-    public StandardOpenMrcJsonMapper(ExtensionRegistry extensionRegistry) {
-        this(extensionRegistry, new MetricRegistry());
-    }
 
     public StandardOpenMrcJsonMapper(ExtensionRegistry extensionRegistry, MetricRegistry metricRegistry) {
         this.extensionRegistry = extensionRegistry;

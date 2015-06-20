@@ -17,9 +17,6 @@ import javax.annotation.Nullable;
  */
 public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
 
-    /**
-     * Created by void on 19.06.15.
-     */
     class OpenMrcMappingException extends RuntimeException {
         public OpenMrcMappingException(Throwable t) {
             super(t);

@@ -1,5 +1,6 @@
 package org.tbk.openmrc.mapper;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.protobuf.ExtensionRegistry;
 import com.googlecode.protobuf.format.JsonFormat;
 import junitparams.JUnitParamsRunner;
@@ -19,6 +20,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by void on 14.06.15.
@@ -34,7 +36,7 @@ public class StandardOpenMrcJsonMapperTest {
         registry.add(OpenMrcExtensions.Browser.browser);
         registry.add(OpenMrcExtensions.OperatingSystem.operatingSystem);
 
-        mapper = new StandardOpenMrcJsonMapper(registry);
+        mapper = new StandardOpenMrcJsonMapper(registry, mock(MetricRegistry.class));
     }
 
     @Test
