@@ -27,7 +27,7 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
     @Override
     public OpenMrcHttpRequestMapper httpRequestMapper() {
         StandardOpenMrcJsonMapper standardOpenMrcJsonMapper = new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
-        return new OpenMrcJsonHttpRequestMapper(standardOpenMrcJsonMapper, httpRequestInterceptor());
+        return new StandardOpenMrcJsonHttpRequestMapper(standardOpenMrcJsonMapper, httpRequestInterceptor());
     }
 
     @Override

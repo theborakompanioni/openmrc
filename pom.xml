@@ -68,6 +68,8 @@
         <slf4jVersion>1.7.12</slf4jVersion>
         <spring.version>4.1.5.RELEASE</spring.version>
         <junit.version>4.11</junit.version>
+        <mockito.version>1.10.19</mockito.version>
+        <junitparams.version>1.0.4</junitparams.version>
 
         <!-- Plugin versions -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -89,8 +91,31 @@
         <dependencies>
             <dependency>
                 <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4jVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
                 <version>${slf4jVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junitVersion}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>pl.pragmatists</groupId>
+                <artifactId>JUnitParams</artifactId>
+                <version>${junitparams.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

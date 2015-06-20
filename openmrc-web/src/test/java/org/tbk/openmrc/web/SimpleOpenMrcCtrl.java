@@ -18,7 +18,7 @@ public class SimpleOpenMrcCtrl {
     private final OpenMrcHttpRequestService openMrcService;
 
     @Autowired
-    public SimpleOpenMrcCtrl(OpenMrcHttpRequestService openMrcService, ObjectMapper mapper) {
+    public SimpleOpenMrcCtrl(OpenMrcHttpRequestService openMrcService) {
         this.openMrcService = openMrcService;
     }
 
@@ -27,7 +27,7 @@ public class SimpleOpenMrcCtrl {
         return ResponseEntity.ok("Hello world");
     }
 
-    @RequestMapping(value = "/track", method = RequestMethod.POST)
+    @RequestMapping(value = "/consume", method = RequestMethod.POST)
     public ResponseEntity<Void> trackMapping(HttpServletRequest request) {
         try {
             HttpServletResponse response = openMrcService.apply(request);
