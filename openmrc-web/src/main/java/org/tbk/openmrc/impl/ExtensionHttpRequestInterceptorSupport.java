@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * Created by void on 21.06.15.
  */
-public abstract class ExtensionHttpRequestInterceptorSupport<EXT> implements OpenMrcRequestInterceptor<HttpServletRequest> {
+public abstract class ExtensionHttpRequestInterceptorSupport<EXT extends GeneratedMessage> implements OpenMrcRequestInterceptor<HttpServletRequest> {
 
     private static final Logger log = LoggerFactory.getLogger(ExtensionHttpRequestInterceptorSupport.class);
 
@@ -28,6 +28,14 @@ public abstract class ExtensionHttpRequestInterceptorSupport<EXT> implements Ope
             org.tbk.openmrc.OpenMrc.Request, EXT> extension, Optional<EXT> defaultValue) {
         this.extension = extension;
         this.defaultValue = defaultValue;
+    }
+
+    public boolean hasDefaultValue() {
+        return defaultValue.isPresent();
+    }
+
+    public EXT getDefaultValue() {
+        return defaultValue.orElse(null);
     }
 
     @Override

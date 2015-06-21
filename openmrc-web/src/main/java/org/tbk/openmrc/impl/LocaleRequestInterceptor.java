@@ -4,6 +4,7 @@ import org.tbk.openmrc.OpenMrcExtensions;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -22,7 +23,11 @@ public class LocaleRequestInterceptor extends ExtensionHttpRequestInterceptorSup
             .build();
 
     public LocaleRequestInterceptor() {
-        super(OpenMrcExtensions.Locale.locale, Optional.of(UNKNOWN));
+        this(Optional.of(UNKNOWN));
+    }
+
+    public LocaleRequestInterceptor(Optional<OpenMrcExtensions.Locale> defaultValue) {
+        super(OpenMrcExtensions.Locale.locale, Objects.requireNonNull(defaultValue));
     }
 
     @Override
