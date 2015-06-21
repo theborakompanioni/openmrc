@@ -25,8 +25,8 @@ public class ProtobufTest {
                                 .setManufacturer("Mozilla")
                                 .build())
                         .setExtension(OpenMrcExtensions.OperatingSystem.operatingSystem, OpenMrcExtensions.OperatingSystem.newBuilder()
-                                .setName("Windows")
-                                .setVersion("8.1")
+                                .setName("Windows 8.1")
+                                .setGroupName("WINDOWS")
                                 .setManufacturer("Microsoft")
                                 .build()),
                 InitialRequests.protobuf().standardGenericRequest()
@@ -48,8 +48,8 @@ public class ProtobufTest {
                         .setManufacturer("Mozilla")
                         .build())
                 .setExtension(OpenMrcExtensions.OperatingSystem.operatingSystem, OpenMrcExtensions.OperatingSystem.newBuilder()
-                        .setName("Windows")
-                        .setVersion("8.1")
+                        .setName("Windows 8.1")
+                        .setGroupName("WINDOWS")
                         .setManufacturer("Microsoft")
                         .build())
                 .build();
@@ -61,7 +61,7 @@ public class ProtobufTest {
         OpenMrcExtensions.OperatingSystem operatingSystem = initialRequest.getExtension(OpenMrcExtensions.OperatingSystem.operatingSystem);
 
         assertThat(operatingSystem, is(not(nullValue())));
-        assertThat(operatingSystem.getName(), equalTo("Windows"));
+        assertThat(operatingSystem.getName(), equalTo("Windows 8.1"));
     }
 
 }
