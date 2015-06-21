@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -50,8 +51,8 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
     }
 
     public StandardOpenMrcJsonHttpRequestMapper(StandardOpenMrcJsonMapper standardOpenMrcJsonMapper, List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptor) {
-        this.openMrcJsonMapper = standardOpenMrcJsonMapper;
-        this.requestInterceptor = requestInterceptor;
+        this.openMrcJsonMapper = Objects.requireNonNull(standardOpenMrcJsonMapper);
+        this.requestInterceptor = Objects.requireNonNull(requestInterceptor);
         this.mapper = createObjectMapper();
     }
 

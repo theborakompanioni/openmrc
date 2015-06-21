@@ -8,6 +8,7 @@ import org.tbk.openmrc.mapper.OpenMrcHttpRequestMapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -19,7 +20,7 @@ public class OpenMrcHttpRequestService extends OpenMrcRequestServiceSupport<Http
 
     public OpenMrcHttpRequestService(OpenMrcHttpRequestMapper mapper, List<OpenMrcRequestConsumer> requestConsumer) {
         super(mapper);
-        this.requestConsumer = requestConsumer;
+        this.requestConsumer = Objects.requireNonNull(requestConsumer);
     }
 
     @Override

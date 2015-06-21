@@ -3,6 +3,8 @@ package org.tbk.openmrc;
 import com.google.protobuf.UninitializedMessageException;
 import org.tbk.openmrc.mapper.OpenMrcMapper;
 
+import java.util.Objects;
+
 /**
  * Created by void on 20.06.15.
  */
@@ -20,7 +22,7 @@ public abstract class OpenMrcRequestServiceSupport<Req, Res> implements OpenMrcR
     private final OpenMrcMapper<Req, Res, Req, Res> mapper;
 
     public OpenMrcRequestServiceSupport(OpenMrcMapper<Req, Res, Req, Res> mapper) {
-        this.mapper = mapper;
+        this.mapper = Objects.requireNonNull(mapper);
     }
 
     @Override

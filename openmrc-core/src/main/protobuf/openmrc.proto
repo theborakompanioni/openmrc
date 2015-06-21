@@ -38,7 +38,8 @@ message Request {
 
     optional SummaryContext summary = 7;
 
-    extensions 100 to 9999;
+    // extensions 100 - 9999 are reserved for interal usage
+    extensions 100 to 99999;
 }
 
 message Response {
@@ -46,7 +47,8 @@ message Response {
 
     optional ErrorReason error = 2;
 
-    extensions 100 to 9999;
+    // extensions 100 - 9999 are reserved for interal usage
+    extensions 100 to 99999;
 
     enum ErrorReason {
         UNKNOWN_ERROR = 0;

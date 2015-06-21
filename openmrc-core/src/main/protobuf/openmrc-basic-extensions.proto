@@ -1,13 +1,44 @@
-
 syntax = "proto2";
+
 package org.tbk.openmrc;
+
 option java_outer_classname = "OpenMrcExtensions";
 
 import "openmrc.proto";
 
+message Referrer {
+    extend Request {
+        optional Referrer referrer = 100;
+    }
+
+    required string value = 1 [default = "?"];
+}
+
+message UserAgent {
+    extend Request {
+        optional UserAgent user_agent = 101;
+    }
+
+    required string value = 1 [default = "?"];
+}
+
+message Locale {
+    extend Request {
+        optional Locale locale = 102;
+    }
+
+    optional string value = 1;
+    optional string country = 2;
+    optional string language = 3 [default = "?"];
+    optional string language_tag = 4 [default = "?"];
+    optional string display_country = 5 [default = "?"];
+    optional string display_language = 6 [default = "?"];
+    optional string display_name = 7 [default = "?"];
+}
+
 message Browser {
     extend Request {
-        optional Browser browser = 1000;
+        optional Browser browser = 103;
     }
 
     required string version = 1 [default = "?"];
@@ -17,10 +48,43 @@ message Browser {
 
 message OperatingSystem {
     extend Request {
-        optional OperatingSystem operatingSystem = 1001;
+        optional OperatingSystem operatingSystem = 104;
     }
 
     required string version = 1 [default = "?"];
     required string name = 2 [default = "?"];
     required string manufacturer = 3 [default = "?"];
+}
+
+message Device {
+    extend Request {
+        optional Device device = 105;
+    }
+
+    required string type = 1 [default = "?"];
+    required string name = 2 [default = "?"];
+    required bool normal = 3 [default = true];
+    required bool tablet = 4 [default = false];
+    required bool mobile = 5 [default = false];
+}
+
+message GeoLocation {
+    extend Request {
+        optional GeoLocation geolocation = 106;
+    }
+
+    optional float lat = 1;
+    optional float lng = 2;
+
+    optional string country_code = 3 [default = "?"];
+    optional string country = 4 [default = "?"];
+    optional string display_country = 5 [default = "?"];
+
+    optional string region = 6 [default = "?"];
+    optional string display_region = 7 [default = "?"];
+
+    optional string city = 8 [default = "?"];
+    optional string zip_code = 9 [default = "?"];
+
+    optional string timezone = 10 [default = "?"];
 }
