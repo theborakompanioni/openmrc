@@ -103,7 +103,9 @@ public class StandardOpenMrcJsonMapperTest {
                 InitialRequests.protobuf().standardInitialRequest()
                         .setExtension(OpenMrcExtensions.Browser.browser, OpenMrcExtensions.Browser.newBuilder()
                                 .setName("Firefox")
-                                .setVersion("30")
+                                .setType("Gecko")
+                                .setVersion("36")
+                                .setMajorVersion("36")
                                 .setManufacturer("Mozilla")
                                 .build())
                         .build()
@@ -114,13 +116,14 @@ public class StandardOpenMrcJsonMapperTest {
     public void testSerializeBrowser() {
         OpenMrcExtensions.Browser browser = OpenMrcExtensions.Browser.newBuilder()
                 .setName("Firefox")
-                .setVersion("30")
+                .setVersion("36a")
+                .setMajorVersion("36")
                 .setManufacturer("Mozilla")
                 .build();
 
         String browserAsJson = JsonFormat.printToString(browser);
 
-        assertThat(browserAsJson, equalTo("{\"version\": \"30\",\"name\": \"Firefox\",\"manufacturer\": \"Mozilla\"}"));
+        assertThat(browserAsJson, equalTo("{\"name\": \"Firefox\",\"manufacturer\": \"Mozilla\",\"version\": \"36a\",\"majorVersion\": \"36\"}"));
     }
 
     @Test
@@ -129,7 +132,9 @@ public class StandardOpenMrcJsonMapperTest {
 
         String jsonFormat = "{" +
                 "\"name\": \"Firefox\"," +
-                "\"version\": \"36\"," +
+                "\"version\": \"36a\"," +
+                "\"majorVersion\": \"36\"," +
+                "\"type\": \"Gecko\"," +
                 "\"manufacturer\": \"Mozilla\"" +
                 "}";
 
@@ -138,8 +143,10 @@ public class StandardOpenMrcJsonMapperTest {
         OpenMrcExtensions.Browser browser = builder.build();
 
         assertThat(browser.getName(), equalTo("Firefox"));
-        assertThat(browser.getVersion(), equalTo("36"));
         assertThat(browser.getManufacturer(), equalTo("Mozilla"));
+        assertThat(browser.getVersion(), equalTo("36a"));
+        assertThat(browser.getMajorVersion(), equalTo("36"));
+        assertThat(browser.getType(), equalTo("Gecko"));
     }
 
 }
