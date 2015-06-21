@@ -96,9 +96,11 @@
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-jdk14</artifactId>
+                <artifactId>slf4j-simple</artifactId>
                 <version>${slf4jVersion}</version>
+                <scope>test</scope>
             </dependency>
+            
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
