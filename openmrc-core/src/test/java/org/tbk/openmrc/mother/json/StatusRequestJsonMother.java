@@ -14,11 +14,11 @@ public class StatusRequestJsonMother {
                 "    \"test\": {\n" +
                 "      \"monitorState\": {\n" +
                 "        \"code\": 2,\n" +
-                "        \"state\": \"FULLYVISIBLE\",\n" +
+                "        \"state\": \"fullyvisible\",\n" +
                 "        \"percentage\": 1,\n" +
                 "        \"previous\": {\n" +
                 "          \"code\": 2,\n" +
-                "          \"state\": \"FULLYVISIBLE\",\n" +
+                "          \"state\": \"fullyvisible\",\n" +
                 "          \"percentage\": 1,\n" +
                 "          \"fullyvisible\": true,\n" +
                 "          \"visible\": true,\n" +

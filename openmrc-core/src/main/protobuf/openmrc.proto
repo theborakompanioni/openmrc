@@ -4,9 +4,9 @@ package org.tbk.openmrc;
 option java_outer_classname = "OpenMrc";
 
 enum Visibility {
-    VISIBLE = 1;
-    FULLYVISIBLE = 2;
-    HIDDEN = 3;
+    visible = 1;
+    fullyvisible = 2;
+    hidden = 3;
 }
 
 enum RequestType {

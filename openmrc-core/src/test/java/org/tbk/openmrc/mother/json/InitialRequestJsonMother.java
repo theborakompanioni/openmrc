@@ -14,7 +14,7 @@ public class InitialRequestJsonMother {
                 "    \"timeStarted\": 328472573,\n" +
                 "    \"state\": {\n" +
                 "      \"code\": 2,\n" +
-                "      \"state\": \"FULLYVISIBLE\",\n" +
+                "      \"state\": \"fullyvisible\",\n" +
                 "      \"percentage\": 1,\n" +
                 "      \"fullyvisible\": true,\n" +
                 "      \"visible\": true,\n" +
@@ -37,7 +37,7 @@ public class InitialRequestJsonMother {
                 "    \"timeStarted\": 328472573,\n" +
                 "    \"state\": {\n" +
                 "      \"code\": 2,\n" +
-                "      \"state\": \"FULLYVISIBLE\",\n" +
+                "      \"state\": \"fullyvisible\",\n" +
                 "      \"percentage\": 1,\n" +
                 "      \"fullyvisible\": true,\n" +
                 "      \"visible\": true,\n" +

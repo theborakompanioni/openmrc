@@ -1,4 +1,4 @@
-package org.tbk.openmrc.mother.protobuf;
+package org.tbk.openmrc.mother;
 
 import org.tbk.openmrc.mother.json.SummaryRequestJsonMother;
 

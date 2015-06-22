@@ -45,7 +45,7 @@ public class StandardOpenMrcJsonMapperTest {
 
         OpenMrc.Request parsedRequest = mapper.toOpenMrcRequest(jsonFormat).build();
         assertThat(parsedRequest.getInitial().getState().getCode(), is(2));
-        assertThat(parsedRequest.getInitial().getState().getState(), is(equalTo(OpenMrc.Visibility.FULLYVISIBLE)));
+        assertThat(parsedRequest.getInitial().getState().getState(), is(equalTo(OpenMrc.Visibility.fullyvisible)));
         assertThat(parsedRequest.getInitial().getState().getPercentage(), is(1.0f));
         assertThat(parsedRequest.getInitial().getState().getFullyvisible(), is(true));
         assertThat(parsedRequest.getInitial().getState().getVisible(), is(true));
