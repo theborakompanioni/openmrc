@@ -15,7 +15,7 @@ public class InitialRequestJsonMother {
                 "    \"state\": {\n" +
                 "      \"code\": 2,\n" +
                 "      \"state\": \"fullyvisible\",\n" +
-                "      \"percentage\": 1,\n" +
+                "      \"percentage\": 0.99,\n" +
                 "      \"fullyvisible\": true,\n" +
                 "      \"visible\": true,\n" +
                 "      \"hidden\": false\n" +
@@ -38,7 +38,7 @@ public class InitialRequestJsonMother {
                 "    \"state\": {\n" +
                 "      \"code\": 2,\n" +
                 "      \"state\": \"fullyvisible\",\n" +
-                "      \"percentage\": 1,\n" +
+                "      \"percentage\": 0.99,\n" +
                 "      \"fullyvisible\": true,\n" +
                 "      \"visible\": true,\n" +
                 "      \"hidden\": false\n" +

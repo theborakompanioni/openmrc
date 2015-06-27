@@ -20,7 +20,7 @@ public class InitialRequestProtobufMother {
                                                 .setFullyvisible(true)
                                                 .setVisible(true)
                                                 .setHidden(false)
-                                                .setPercentage(1.0f)
+                                                .setPercentage(0.99f)
                                 )
                 );
     }
@@ -37,7 +37,7 @@ public class InitialRequestProtobufMother {
                                                                 .setFullyvisible(true)
                                                                 .setVisible(true)
                                                                 .setHidden(false)
-                                                                .setPercentage(1.0f)
+                                                                .setPercentage(0.99f)
                                                 )
                                                 .setTestConfig(OpenMrc.VisibilityTimeTestConfig.newBuilder()
                                                                 .setInterval(100)
