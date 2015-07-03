@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>org.tbk.openmrc</groupId>
-  <artifactId>openmrc-web</artifactId>
+  <artifactId>openmrc-parent</artifactId>
   <versioning>
     <versions>
       <version>0.1.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20150627192619</lastUpdated>
+    <lastUpdated>20150703233606</lastUpdated>
   </versioning>
 </metadata>
