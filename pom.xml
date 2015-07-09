@@ -174,15 +174,6 @@
             </plugin>
 
             <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
-                <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo
-                    </altDeploymentRepository>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.5.2</version>
             </plugin>
@@ -215,6 +206,22 @@
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
                     <argLine>-Djava.util.logging.config.file=src/test/resources/logging.properties</argLine>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.18.1</version>
+                <executions>
+                    <execution>
+                        <id>run-integration-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
