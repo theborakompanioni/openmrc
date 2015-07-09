@@ -1,6 +1,7 @@
+
 syntax = "proto2";
 
-package org.tbk.openmrc;
+package com.github.theborakompanioni.openmrc;
 
 option java_outer_classname = "OpenMrcExtensions";
 
