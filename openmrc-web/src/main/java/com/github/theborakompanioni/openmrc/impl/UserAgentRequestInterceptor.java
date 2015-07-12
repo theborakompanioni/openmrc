@@ -15,13 +15,15 @@ public class UserAgentRequestInterceptor extends ExtensionHttpRequestInterceptor
             .setValue("?")
             .build();
 
+    private static final String HTTP_HEADER_USER_AGENT = "User-Agent";
+
     public UserAgentRequestInterceptor() {
         super(OpenMrcExtensions.UserAgent.userAgent, Optional.of(UNKNOWN));
     }
 
     @Override
     protected Optional<OpenMrcExtensions.UserAgent> extract(HttpServletRequest context) {
-        Optional<String> userAgent = Optional.ofNullable(Strings.emptyToNull(context.getHeader("User-Agent")));
+        Optional<String> userAgent = Optional.ofNullable(Strings.emptyToNull(context.getHeader(HTTP_HEADER_USER_AGENT)));
 
         return userAgent.map(val -> OpenMrcExtensions.UserAgent.newBuilder()
                 .setValue(val)

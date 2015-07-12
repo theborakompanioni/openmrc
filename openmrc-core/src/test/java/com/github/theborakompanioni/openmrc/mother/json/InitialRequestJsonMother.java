@@ -24,6 +24,17 @@ public class InitialRequestJsonMother {
                 "  \"viewport\": {\n" +
                 "    \"width\": 1920,\n" +
                 "    \"height\": 911\n" +
+                "  },\n" +
+                "  \"element\": {\n" +
+                "    \"id\": \"myElement\",\n" +
+                "    \"dimension\": {\n" +
+                "      \"width\": 300,\n" +
+                "      \"height\": 250\n" +
+                "    },\n" +
+                "    \"position\": {\n" +
+                "      \"x\": 123,\n" +
+                "      \"y\": 456\n" +
+                "    }\n" +
                 "  }\n" +
                 "}";
     }
@@ -52,6 +63,17 @@ public class InitialRequestJsonMother {
                 "    \"name\": \"FIREFOX\",\n" +
                 "    \"version\": \"36\",\n" +
                 "    \"manufacturer\": \"Mozilla\"\n" +
+                "  },\n" +
+                "  \"element\": {\n" +
+                "    \"id\": \"myElement\",\n" +
+                "    \"dimension\": {\n" +
+                "      \"width\": 300,\n" +
+                "      \"height\": 250\n" +
+                "    },\n" +
+                "    \"position\": {\n" +
+                "      \"x\": 123,\n" +
+                "      \"y\": 456\n" +
+                "    }\n" +
                 "  }\n" +
                 "}";
     }

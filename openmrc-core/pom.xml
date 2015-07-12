@@ -184,30 +184,6 @@
                                     <goal>run</goal>
                                 </goals>
                             </execution>
-                            <!--execution>
-                                <id>compile-protoc-test</id>
-                                <phase>generate-test-sources</phase>
-                                <configuration>
-                                    <tasks>
-                                        <mkdir dir="${testProtobufGenerated}"/>
-                                        <path id="proto.path">
-                                            <fileset dir="${testProtobufSource}">
-                                                <include name="**/*.proto"/>
-                                            </fileset>
-                                        </path>
-                                        <pathconvert pathsep=" " property="proto.files" refid="proto.path"/>
-                                        <exec executable="protoc" failonerror="true">
-                                            <arg value="-java_out=${testProtobufGenerated}"/>
-                                            <arg value="-I${protobufSource}"/>
-                                            <arg value="-I${testProtobufSource}"/>
-                                            <arg line="${proto.files}"/>
-                                        </exec>
-                                    </tasks>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution-->
                         </executions>
                     </plugin>
                 </plugins>
