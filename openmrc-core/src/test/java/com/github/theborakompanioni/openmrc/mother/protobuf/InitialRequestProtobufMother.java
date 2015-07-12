@@ -7,11 +7,29 @@ import com.github.theborakompanioni.openmrc.OpenMrc;
  * Created by void on 19.06.15.
  */
 public class InitialRequestProtobufMother {
-
-    public OpenMrc.Request.Builder standardInitialRequest() {
+    public OpenMrc.Request.Builder partialRequest() {
         return OpenMrc.Request.newBuilder()
                 .setSessionId("123")
                 .setMonitorId("123")
+                .setViewport(OpenMrc.Dimension.newBuilder()
+                                .setHeight(1024)
+                                .setWidth(768)
+                )
+                .setElement(OpenMrc.ElementContext.newBuilder()
+                                .setId("myElement")
+                                .setDimension(OpenMrc.Dimension.newBuilder()
+                                                .setHeight(100)
+                                                .setWidth(100)
+                                )
+                                .setPosition(OpenMrc.Position.newBuilder()
+                                                .setX(300)
+                                                .setY(300)
+                                )
+                );
+    }
+
+    public OpenMrc.Request.Builder standardInitialRequest() {
+        return partialRequest()
                 .setType(OpenMrc.RequestType.INITIAL)
                 .setInitial(OpenMrc.InitialContext.newBuilder()
                                 .setTimeStarted(10000)
