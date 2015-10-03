@@ -70,7 +70,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
-            <scope>compile</scope> <!-- needed for MockHttpServletResponse -->
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
