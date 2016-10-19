@@ -21,11 +21,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
 
-/**
- * Created by void on 14.06.15.
- */
 @RunWith(JUnitParamsRunner.class)
 public class StandardOpenMrcJsonMapperTest {
 
@@ -37,7 +33,11 @@ public class StandardOpenMrcJsonMapperTest {
         registry.add(OpenMrcExtensions.Browser.browser);
         registry.add(OpenMrcExtensions.OperatingSystem.operatingSystem);
 
-        mapper = new StandardOpenMrcJsonMapper(registry, mock(MetricRegistry.class));
+        mapper = new StandardOpenMrcJsonMapper(registry, mockMetricsRegistry());
+    }
+
+    private MetricRegistry mockMetricsRegistry() {
+        return new MetricRegistry();
     }
 
     @Test

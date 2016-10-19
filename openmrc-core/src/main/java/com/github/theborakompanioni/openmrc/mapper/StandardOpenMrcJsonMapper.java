@@ -1,21 +1,31 @@
 package com.github.theborakompanioni.openmrc.mapper;
 
+import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import com.github.theborakompanioni.openmrc.util.OpenMrcValidator;
+import com.github.theborakompanioni.openmrc.util.OpenMrcValidator.OpenMrcValidationException;
 import com.google.protobuf.ExtensionRegistry;
 import com.googlecode.protobuf.format.JsonFormat;
 
 import javax.annotation.Nullable;
 
+import static java.util.Objects.requireNonNull;
+
 public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, String, String> {
 
-    private ExtensionRegistry extensionRegistry;
-    private OpenMrcValidator validator;
+    private final ExtensionRegistry extensionRegistry;
+    private final OpenMrcValidator validator;
+
+    private final Meter invalidRequests;
+    private final Meter validRequests;
 
     public StandardOpenMrcJsonMapper(ExtensionRegistry extensionRegistry, MetricRegistry metricRegistry) {
-        this.extensionRegistry = extensionRegistry;
-        this.validator = new OpenMrcValidator(metricRegistry);
+        this.extensionRegistry = requireNonNull(extensionRegistry);
+        this.invalidRequests = requireNonNull(metricRegistry.meter("openmrc.request.invalid"));
+        this.validRequests = requireNonNull(metricRegistry.meter("openmrc.request.valid"));
+
+        this.validator = new OpenMrcValidator();
     }
 
     @Override
@@ -48,7 +58,9 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
 
         try {
             validator.validate(builder);
-        } catch (OpenMrcValidator.OpenMrcValidationException e) {
+            validRequests.mark();
+        } catch (OpenMrcValidationException e) {
+            invalidRequests.mark();
             throw new OpenMrcMappingException(e);
         }
 
@@ -67,7 +79,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
 
         try {
             validator.validate(builder);
-        } catch (OpenMrcValidator.OpenMrcValidationException e) {
+        } catch (OpenMrcValidationException e) {
             throw new OpenMrcMappingException(e);
         }
 

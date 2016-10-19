@@ -1,6 +1,6 @@
 package com.github.theborakompanioni.openmrc.util;
 
-import com.codahale.metrics.Counter;
+import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import org.slf4j.Logger;
@@ -25,15 +25,10 @@ public class OpenMrcValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenMrcValidator.class);
 
-    private final Counter invalid = new Counter();
-    private final Counter valid = new Counter();
 
     @Inject
-    public OpenMrcValidator(MetricRegistry metricRegistry) {
-        metricRegistry.register(MetricRegistry.name(getClass(), "invalid"), invalid);
-        metricRegistry.register(MetricRegistry.name(getClass(), "valid"), valid);
+    public OpenMrcValidator() {
     }
-
 
     public void validate(OpenMrc.Response.Builder builder) throws OpenMrcValidationException {
 
@@ -42,9 +37,7 @@ public class OpenMrcValidator {
     public void validate(OpenMrc.Request.Builder request) throws OpenMrcValidationException {
         try {
             validateInternal(request);
-            valid.inc();
         } catch (OpenMrcValidationException e) {
-            invalid.inc();
             throw e;
         }
     }
