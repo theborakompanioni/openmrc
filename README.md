@@ -19,15 +19,20 @@ openmrc
 </dependency>
 ```
 
+Enable snapshot repositories:
 ```xml
-<repositories>
-    <repository>
-        <id>tbk-openmrc-mvn-repo</id>
-        <url>https://raw.github.com/theborakompanioni/openmrc/mvn-repo/</url>
-        <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>always</updatePolicy>
-        </snapshots>
-    </repository>
-</repositories>
+<profiles>
+    <profile>
+        <id>allow-snapshots</id>
+        <activation><activeByDefault>true</activeByDefault></activation>
+        <repositories>
+            <repository>
+                <id>snapshots-repo</id>
+                <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                <releases><enabled>false</enabled></releases>
+                <snapshots><enabled>true</enabled></snapshots>
+            </repository>
+        </repositories>
+    </profile>
+</profiles>
 ```
