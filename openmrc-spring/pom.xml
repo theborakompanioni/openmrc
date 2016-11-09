@@ -21,11 +21,6 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.theborakompanioni</groupId>
             <artifactId>openmrc-web</artifactId>
             <version>${project.version}</version>
@@ -44,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot-test.version}</version>
             <scope>test</scope>
         </dependency>
