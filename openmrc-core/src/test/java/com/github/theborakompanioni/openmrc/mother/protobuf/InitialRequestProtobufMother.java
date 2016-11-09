@@ -3,9 +3,6 @@ package com.github.theborakompanioni.openmrc.mother.protobuf;
 
 import com.github.theborakompanioni.openmrc.OpenMrc;
 
-/**
- * Created by void on 19.06.15.
- */
 public class InitialRequestProtobufMother {
     public OpenMrc.Request.Builder partialRequest() {
         return OpenMrc.Request.newBuilder()

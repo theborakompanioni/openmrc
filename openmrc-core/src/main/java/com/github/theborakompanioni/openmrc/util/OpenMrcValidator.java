@@ -1,16 +1,9 @@
 package com.github.theborakompanioni.openmrc.util;
 
-import com.codahale.metrics.Meter;
-import com.codahale.metrics.MetricRegistry;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-
-/**
- * Created by void on 14.06.15.
- */
 public class OpenMrcValidator {
 
     public static class OpenMrcValidationException extends Exception {
@@ -25,8 +18,6 @@ public class OpenMrcValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenMrcValidator.class);
 
-
-    @Inject
     public OpenMrcValidator() {
     }
 

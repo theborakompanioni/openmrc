@@ -6,9 +6,6 @@ import com.google.common.base.Strings;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-/**
- * Created by void on 20.06.15.
- */
 public class ReferrerRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.Referrer> {
 
     private static final OpenMrcExtensions.Referrer UNKNOWN = OpenMrcExtensions.Referrer.newBuilder()

@@ -16,12 +16,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 
-/**
- * Created by void on 20.06.15.
- */
+import static java.util.Objects.requireNonNull;
+
 public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestMapper {
 
     private static final Logger log = LoggerFactory.getLogger(StandardOpenMrcJsonHttpRequestMapper.class);
@@ -30,6 +28,7 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
 
     private final List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptor;
 
+    // TODO: try to get rid of dependency
     private final ObjectMapper mapper;
 
     private final Function<OpenMrc.Response, Integer> getStatusCode = (response) -> {
@@ -51,9 +50,10 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
         this(standardOpenMrcJsonMapper, Collections.emptyList());
     }
 
-    public StandardOpenMrcJsonHttpRequestMapper(StandardOpenMrcJsonMapper standardOpenMrcJsonMapper, List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptor) {
-        this.openMrcJsonMapper = Objects.requireNonNull(standardOpenMrcJsonMapper);
-        this.requestInterceptor = Objects.requireNonNull(requestInterceptor);
+    public StandardOpenMrcJsonHttpRequestMapper(StandardOpenMrcJsonMapper standardOpenMrcJsonMapper,
+                                                List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptor) {
+        this.openMrcJsonMapper = requireNonNull(standardOpenMrcJsonMapper);
+        this.requestInterceptor = requireNonNull(requestInterceptor);
         this.mapper = createObjectMapper();
     }
 
@@ -104,8 +104,7 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
     }
 
     private ObjectMapper createObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper;
+        return new ObjectMapper();
     }
 
     private JsonNode readRequestBodyAsJson(HttpServletRequest request) throws IOException {

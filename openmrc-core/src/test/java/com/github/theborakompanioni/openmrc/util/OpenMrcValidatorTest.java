@@ -4,9 +4,6 @@ import com.github.theborakompanioni.openmrc.OpenMrc;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by void on 14.06.15.
- */
 public class OpenMrcValidatorTest {
 
     private OpenMrcValidator validator;

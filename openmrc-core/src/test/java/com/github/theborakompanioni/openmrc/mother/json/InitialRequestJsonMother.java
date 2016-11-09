@@ -1,8 +1,5 @@
 package com.github.theborakompanioni.openmrc.mother.json;
 
-/**
- * Created by void on 19.06.15.
- */
 public class InitialRequestJsonMother {
 
     public String standardInitialRequest() {

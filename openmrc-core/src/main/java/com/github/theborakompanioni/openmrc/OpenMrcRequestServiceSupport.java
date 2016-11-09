@@ -5,9 +5,8 @@ import com.google.protobuf.UninitializedMessageException;
 
 import java.util.Objects;
 
-/**
- * Created by void on 20.06.15.
- */
+import static java.util.Objects.requireNonNull;
+
 public abstract class OpenMrcRequestServiceSupport<Req, Res> implements OpenMrcRequestService<Req, Res> {
     private static OpenMrc.Response INVALID_REQUEST = OpenMrc.Response.newBuilder()
             .setId(OpenMrc.Response.ErrorReason.INVALID_REQUEST.name())
@@ -22,7 +21,7 @@ public abstract class OpenMrcRequestServiceSupport<Req, Res> implements OpenMrcR
     private final OpenMrcMapper<Req, Res, Req, Res> mapper;
 
     public OpenMrcRequestServiceSupport(OpenMrcMapper<Req, Res, Req, Res> mapper) {
-        this.mapper = Objects.requireNonNull(mapper);
+        this.mapper = requireNonNull(mapper);
     }
 
     @Override

@@ -4,12 +4,8 @@ import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Optional;
 
-/**
- * Created by void on 20.06.15.
- */
 public class LocaleRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.Locale> {
 
     private static final OpenMrcExtensions.Locale UNKNOWN = OpenMrcExtensions.Locale.newBuilder()
@@ -27,7 +23,7 @@ public class LocaleRequestInterceptor extends ExtensionHttpRequestInterceptorSup
     }
 
     public LocaleRequestInterceptor(Optional<OpenMrcExtensions.Locale> defaultValue) {
-        super(OpenMrcExtensions.Locale.locale, Objects.requireNonNull(defaultValue));
+        super(OpenMrcExtensions.Locale.locale, defaultValue);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.github.theborakompanioni.openmrc.web;
 
 import com.codahale.metrics.MetricRegistry;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.theborakompanioni.openmrc.LoggingRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
@@ -17,9 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by void on 20.06.15.
- */
 public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfiguration {
     @Override
     public MetricRegistry metricsRegistry() {

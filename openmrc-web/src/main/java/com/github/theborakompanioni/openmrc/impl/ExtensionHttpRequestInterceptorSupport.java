@@ -9,9 +9,8 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-/**
- * Created by void on 21.06.15.
- */
+import static java.util.Objects.requireNonNull;
+
 public abstract class ExtensionHttpRequestInterceptorSupport<EXT extends GeneratedMessage> implements OpenMrcRequestInterceptor<HttpServletRequest> {
 
     private static final Logger log = LoggerFactory.getLogger(ExtensionHttpRequestInterceptorSupport.class);
@@ -24,8 +23,8 @@ public abstract class ExtensionHttpRequestInterceptorSupport<EXT extends Generat
     }
 
     public ExtensionHttpRequestInterceptorSupport(GeneratedMessage.GeneratedExtension<OpenMrc.Request, EXT> extension, Optional<EXT> defaultValue) {
-        this.extension = extension;
-        this.defaultValue = defaultValue;
+        this.extension = requireNonNull(extension);
+        this.defaultValue = requireNonNull(defaultValue);
     }
 
     public boolean hasDefaultValue() {

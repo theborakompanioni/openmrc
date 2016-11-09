@@ -7,18 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by void on 21.06.15.
- */
 public class LocaleRequestInterceptorTest {
 
     MockHttpServletRequest withoutLocale;
@@ -34,7 +28,7 @@ public class LocaleRequestInterceptorTest {
         this.withoutLocale.setPreferredLocales(listContainingNull);
 
         this.withLocale = new MockHttpServletRequest();
-        withLocale.setPreferredLocales(Arrays.asList(Locale.JAPAN));
+        withLocale.setPreferredLocales(Collections.singletonList(Locale.JAPAN));
 
         this.localeRequestInterceptor = new LocaleRequestInterceptor();
         this.openMrcRequestBuilder = OpenMrc.Request.newBuilder();
