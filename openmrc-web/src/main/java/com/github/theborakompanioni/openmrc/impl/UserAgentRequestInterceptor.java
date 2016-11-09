@@ -20,7 +20,8 @@ public class UserAgentRequestInterceptor extends ExtensionHttpRequestInterceptor
 
     @Override
     protected Optional<OpenMrcExtensions.UserAgent> extract(HttpServletRequest context) {
-        Optional<String> userAgent = Optional.ofNullable(Strings.emptyToNull(context.getHeader(HTTP_HEADER_USER_AGENT)));
+        Optional<String> userAgent = Optional.ofNullable(context.getHeader(HTTP_HEADER_USER_AGENT))
+                .map(Strings::emptyToNull);
 
         return userAgent.map(val -> OpenMrcExtensions.UserAgent.newBuilder()
                 .setValue(val)

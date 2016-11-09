@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @EnableWebMvc
 class SimpleOpenMrcTestConfiguration extends WebMvcConfigurerAdapter {
-    class SimpleOpenMrcConfiguration extends OpenMrcWebConfigurationSupport {
+    private class SimpleOpenMrcConfiguration extends OpenMrcWebConfigurationSupport {
     }
 
     @Bean

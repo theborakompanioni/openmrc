@@ -15,10 +15,10 @@ import static org.junit.Assert.assertThat;
 
 public class LocaleRequestInterceptorTest {
 
-    MockHttpServletRequest withoutLocale;
-    MockHttpServletRequest withLocale;
-    LocaleRequestInterceptor localeRequestInterceptor;
-    OpenMrc.Request.Builder openMrcRequestBuilder;
+    private MockHttpServletRequest withoutLocale;
+    private MockHttpServletRequest withLocale;
+    private LocaleRequestInterceptor localeRequestInterceptor;
+    private OpenMrc.Request.Builder openMrcRequestBuilder;
 
     @Before
     public void setup() throws Exception {

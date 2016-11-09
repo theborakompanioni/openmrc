@@ -19,8 +19,8 @@ public class ReferrerRequestInterceptor extends ExtensionHttpRequestInterceptorS
 
     @Override
     protected Optional<OpenMrcExtensions.Referrer> extract(HttpServletRequest context) {
-
-        Optional<String> userAgent = Optional.ofNullable(Strings.emptyToNull(context.getHeader(HTTP_HEADER_REFERER)));
+        Optional<String> userAgent = Optional.ofNullable(context.getHeader(HTTP_HEADER_REFERER))
+                .map(Strings::emptyToNull);
 
         return userAgent.map(val -> OpenMrcExtensions.Referrer.newBuilder()
                 .setValue(val)

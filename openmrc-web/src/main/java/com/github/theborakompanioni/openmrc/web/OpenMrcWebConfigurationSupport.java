@@ -1,7 +1,6 @@
 package com.github.theborakompanioni.openmrc.web;
 
 import com.codahale.metrics.MetricRegistry;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.theborakompanioni.openmrc.LoggingRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
@@ -16,6 +15,7 @@ import com.google.protobuf.ExtensionRegistry;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfiguration {
@@ -48,7 +48,7 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
 
     @Override
     public List<OpenMrcRequestConsumer> openMrcRequestConsumer() {
-        return Arrays.asList(new LoggingRequestConsumer());
+        return Collections.singletonList(loggingRequestConsumer());
     }
 
     @Override
@@ -58,5 +58,9 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
                 new ReferrerRequestInterceptor(),
                 new LocaleRequestInterceptor()
         );
+    }
+
+    private LoggingRequestConsumer loggingRequestConsumer() {
+        return new LoggingRequestConsumer();
     }
 }
