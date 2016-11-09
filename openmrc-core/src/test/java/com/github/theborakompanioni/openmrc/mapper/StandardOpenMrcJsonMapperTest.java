@@ -122,7 +122,7 @@ public class StandardOpenMrcJsonMapperTest {
                 .setManufacturer("Mozilla")
                 .build();
 
-        String browserAsJson = JsonFormat.printToString(browser);
+        String browserAsJson = new JsonFormat().printToString(browser);
 
         assertThat(browserAsJson, equalTo("{\"name\": \"Firefox\",\"manufacturer\": \"Mozilla\",\"version\": \"36a\",\"majorVersion\": \"36\"}"));
     }
@@ -139,7 +139,7 @@ public class StandardOpenMrcJsonMapperTest {
                 "\"manufacturer\": \"Mozilla\"" +
                 "}";
 
-        JsonFormat.merge(jsonFormat, builder);
+        new JsonFormat().merge(jsonFormat, ExtensionRegistry.getEmptyRegistry(), builder);
 
         OpenMrcExtensions.Browser browser = builder.build();
 

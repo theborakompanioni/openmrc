@@ -57,19 +57,19 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <findBugsJsr305.version>3.0.0</findBugsJsr305.version>
         <gpg.skip>true</gpg.skip>
-        <guava.version>18.0</guava.version>
+
+        <findBugsJsr305.version>3.0.1</findBugsJsr305.version>
+        <guava.version>20.0</guava.version>
         <inject.version>1</inject.version>
-        <jackson.version>2.5.3</jackson.version>
+        <jackson.version>2.5.5</jackson.version>
         <junit.version>4.12</junit.version>
-        <metrics.version>3.1.0</metrics.version>
+        <metrics.version>3.1.2</metrics.version>
         <protobuf.version>2.6.1</protobuf.version>
-        <slf4j.version>1.7.12</slf4j.version>
-        <spring.version>4.1.5.RELEASE</spring.version>
-        <junit.version>4.11</junit.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <spring.version>4.3.4.RELEASE</spring.version>
         <mockito.version>1.10.19</mockito.version>
-        <junitparams.version>1.0.4</junitparams.version>
+        <junitparams.version>1.0.5</junitparams.version>
 
         <!-- Plugin versions -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -19,6 +19,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
 
     private final Meter invalidRequests;
     private final Meter validRequests;
+    private final JsonFormat jsonFormat;
 
     public StandardOpenMrcJsonMapper(ExtensionRegistry extensionRegistry, MetricRegistry metricRegistry) {
         this.extensionRegistry = requireNonNull(extensionRegistry);
@@ -26,12 +27,13 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
         this.validRequests = requireNonNull(metricRegistry.meter("openmrc.request.valid"));
 
         this.validator = new OpenMrcValidator();
+        this.jsonFormat = new JsonFormat();
     }
 
     @Override
     public String toExchangeRequest(@Nullable OpenMrc.Request request) {
         try {
-            return JsonFormat.printToString(request);
+            return jsonFormat.printToString(request);
         } catch (Exception e) {
             throw new OpenMrcMappingException(e);
         }
@@ -40,7 +42,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
     @Override
     public String toExchangeResponse(@Nullable OpenMrc.Request request, OpenMrc.Response response) {
         try {
-            return JsonFormat.printToString(response);
+            return jsonFormat.printToString(response);
         } catch (Exception e) {
             throw new OpenMrcMappingException(e);
         }
@@ -51,7 +53,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
         OpenMrc.Request.Builder builder = OpenMrc.Request.newBuilder();
 
         try {
-            JsonFormat.merge(request, extensionRegistry, builder);
+            jsonFormat.merge(request, extensionRegistry, builder);
         } catch (Exception e) {
             throw new OpenMrcMappingException(e);
         }
@@ -72,7 +74,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
         OpenMrc.Response.Builder builder = OpenMrc.Response.newBuilder();
 
         try {
-            JsonFormat.merge(response, extensionRegistry, builder);
+            jsonFormat.merge(response, extensionRegistry, builder);
         } catch (Exception e) {
             throw new OpenMrcMappingException(e);
         }
