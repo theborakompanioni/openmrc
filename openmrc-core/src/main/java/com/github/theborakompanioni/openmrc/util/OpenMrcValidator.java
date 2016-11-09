@@ -1,8 +1,13 @@
 package com.github.theborakompanioni.openmrc.util;
 
 import com.github.theborakompanioni.openmrc.OpenMrc;
+import com.google.protobuf.GeneratedMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
+import static java.util.Objects.requireNonNull;
 
 public class OpenMrcValidator {
 
@@ -21,11 +26,17 @@ public class OpenMrcValidator {
     public OpenMrcValidator() {
     }
 
-    public void validate(OpenMrc.Response.Builder builder) throws OpenMrcValidationException {
-
+    public void validate(OpenMrc.Response.Builder response) throws OpenMrcValidationException {
+        requireNonNull(response);
+        try {
+            validateProtobufFields(response);
+        } catch (OpenMrcValidationException e) {
+            throw e;
+        }
     }
 
     public void validate(OpenMrc.Request.Builder request) throws OpenMrcValidationException {
+        requireNonNull(request);
         try {
             validateInternal(request);
         } catch (OpenMrcValidationException e) {
@@ -33,7 +44,20 @@ public class OpenMrcValidator {
         }
     }
 
-    protected void validateInternal(OpenMrc.Request.Builder request) throws OpenMrcValidationException {
+    private void validateProtobufFields(GeneratedMessage.ExtendableBuilder builder) throws OpenMrcValidationException {
+        requireNonNull(builder);
+
+        final List initializationErrors = builder.findInitializationErrors();
+        boolean hasErrors = !initializationErrors.isEmpty();
+
+        if (hasErrors) {
+            throw new OpenMrcValidationException(builder.getInitializationErrorString());
+        }
+    }
+
+    private void validateInternal(OpenMrc.Request.Builder request) throws OpenMrcValidationException {
+        validateProtobufFields(request);
+
         if (request.getType() == OpenMrc.RequestType.INITIAL || request.hasInitial()) {
             validateInitialContext(request);
         }
