@@ -6,6 +6,7 @@
     <modules>
         <module>openmrc-core</module>
         <module>openmrc-web</module>
+        <module>openmrc-spring</module>
     </modules>
     <parent>
         <groupId>org.sonatype.oss</groupId>
