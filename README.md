@@ -8,12 +8,12 @@ openmrc
 #### Maven
 ```xml
 <dependency>
-    <groupId>org.tbk.openmrc</groupId>
+    <groupId>com.github.theborakompanioni</groupId>
     <artifactId>openmrc-core</artifactId>
     <version>${openmrc.version}</version>
 </dependency>
 <dependency>
-    <groupId>org.tbk.openmrc</groupId>
+    <groupId>com.github.theborakompanioni</groupId>
     <artifactId>openmrc-web</artifactId>
     <version>${openmrc.version}</version>
 </dependency>
