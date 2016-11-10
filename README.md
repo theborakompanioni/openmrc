@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/theborakompanioni/openmrc.svg)](https://travis-ci.org/theborakompanioni/openmrc)
-
+[![License](https://img.shields.io/github/license/theborakompanioni/openmrc.svg?maxAge=2592000)](https://github.com/theborakompanioni/openmrc/blob/master/LICENSE)
 openmrc
 ===
 
@@ -36,3 +36,7 @@ Enable snapshot repositories:
     </profile>
 </profiles>
 ```
+
+License
+-------
+The project is licensed under the Apache License. See [LICENSE](LICENSE) for details.
