@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 
 import static java.util.Objects.requireNonNull;
 
-public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, String, String> {
+public class StandardOpenMrcJsonMapper implements OpenMrcJsonMapper {
 
     private final ExtensionRegistry extensionRegistry;
     private final OpenMrcValidator validator;
@@ -31,7 +31,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
     }
 
     @Override
-    public String toExchangeRequest(@Nullable OpenMrc.Request request) {
+    public String toJson(@Nullable OpenMrc.Request request) {
         try {
             return jsonFormat.printToString(request);
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
     }
 
     @Override
-    public String toExchangeResponse(@Nullable OpenMrc.Request request, OpenMrc.Response response) {
+    public String toJson(@Nullable OpenMrc.Request request, OpenMrc.Response response) {
         try {
             return jsonFormat.printToString(response);
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
     }
 
     @Override
-    public OpenMrc.Request.Builder toOpenMrcRequest(String request) {
+    public OpenMrc.Request.Builder fromJsonAsRequest(String request) {
         OpenMrc.Request.Builder builder = OpenMrc.Request.newBuilder();
 
         try {
@@ -70,7 +70,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcMapper<String, String, 
     }
 
     @Override
-    public OpenMrc.Response.Builder toOpenMrcResponse(@Nullable String request, String response) {
+    public OpenMrc.Response.Builder fromJsonAsResponse(String response) {
         OpenMrc.Response.Builder builder = OpenMrc.Response.newBuilder();
 
         try {

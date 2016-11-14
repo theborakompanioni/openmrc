@@ -33,6 +33,16 @@ public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
     /**
      * Converts an OpenMrc response to the exchange-specific format.
      *
+     * @param response OpenMrc response
+     * @return Response in the exchange-specific format
+     */
+    default RespOut toExchangeResponse(OpenMrc.Response response) throws OpenMrcMappingException {
+        return toExchangeResponse(null, response);
+    }
+
+    /**
+     * Converts an OpenMrc response to the exchange-specific format.
+     *
      * @param request  OpenMrc request, if necessary for context or validations
      * @param response OpenMrc response
      * @return Response in the exchange-specific format
@@ -46,6 +56,16 @@ public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
      * @return OpenMrc request
      */
     OpenMrc.Request.Builder toOpenMrcRequest(ReqIn request) throws OpenMrcMappingException;
+
+    /**
+     * Converts a n exchange-specific response to OpenMrc.
+     *
+     * @param response The response
+     * @return OpenMrc response
+     */
+    default OpenMrc.Response.Builder toOpenMrcResponse(RespIn response) throws OpenMrcMappingException {
+        return toOpenMrcResponse(null, response);
+    }
 
     /**
      * Converts a n exchange-specific response to OpenMrc.
