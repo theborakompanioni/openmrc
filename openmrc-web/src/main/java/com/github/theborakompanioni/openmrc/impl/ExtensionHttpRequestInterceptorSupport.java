@@ -3,6 +3,7 @@ package com.github.theborakompanioni.openmrc.impl;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
 import com.google.protobuf.GeneratedMessage;
+import io.reactivex.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,26 +36,45 @@ public abstract class ExtensionHttpRequestInterceptorSupport<EXT extends Generat
         return defaultValue.orElse(null);
     }
 
-    @Override
-    public OpenMrc.Request.Builder intercept(HttpServletRequest context, OpenMrc.Request.Builder builder) {
-        if (builder.hasExtension(extension)) {
-            return builder;
-        }
-
-        try {
-            Optional<EXT> extractedValue = extract(context);
-            if (extractedValue.isPresent()) {
-                builder.setExtension(extension, extractedValue.get());
-            } else if (defaultValue.isPresent()) {
-                builder.setExtension(extension, defaultValue.get());
+    private Observable<EXT> getDefaultValueObservable() {
+        return Observable.defer(() -> {
+            if (hasDefaultValue()) {
+                return Observable.just(getDefaultValue());
+            } else {
+                return Observable.empty();
             }
-        } catch (Exception e) {
-            String extensionName = extension.getDescriptor().getFullName();
-            log.warn("Exception while parsing extracting " + extensionName + " from HttpRequest", e);
-        }
-
-        return builder;
+        });
     }
 
-    protected abstract Optional<EXT> extract(HttpServletRequest context);
+    @Override
+    public Observable<OpenMrc.Request.Builder> intercept(HttpServletRequest context, OpenMrc.Request.Builder builder) {
+        if (builder.hasExtension(extension)) {
+            return Observable.just(builder);
+        }
+
+        return Observable.defer(() -> {
+            try {
+                final Observable<Optional<EXT>> extractedValue = extract(context)
+                        .switchIfEmpty(getDefaultValueObservable())
+                        .doOnError(e -> {
+                            String extensionName = extension.getDescriptor().getFullName();
+                            log.warn("Exception while extracting " + extensionName + " from HttpRequest", e);
+                        })
+                        .onErrorResumeNext(Observable.empty())
+                        .map(Optional::ofNullable);
+
+                return extractedValue.map(val -> {
+                    if (val.isPresent()) {
+                        builder.setExtension(extension, val.get());
+                    }
+                    return builder;
+                }).switchIfEmpty(Observable.just(builder));
+            } catch (Exception e) {
+
+            }
+            return Observable.just(builder);
+        });
+    }
+
+    protected abstract Observable<EXT> extract(HttpServletRequest context);
 }

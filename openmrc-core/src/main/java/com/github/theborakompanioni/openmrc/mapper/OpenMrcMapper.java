@@ -1,6 +1,7 @@
 package com.github.theborakompanioni.openmrc.mapper;
 
 import com.github.theborakompanioni.openmrc.OpenMrc;
+import io.reactivex.Observable;
 
 import javax.annotation.Nullable;
 
@@ -28,7 +29,7 @@ public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
      * @param request OpenMrc request
      * @return Request in the exchange-specific format
      */
-    ReqOut toExchangeRequest(@Nullable OpenMrc.Request request) throws OpenMrcMappingException;
+    Observable<ReqOut> toExchangeRequest(@Nullable OpenMrc.Request request) throws OpenMrcMappingException;
 
     /**
      * Converts an OpenMrc response to the exchange-specific format.
@@ -36,7 +37,7 @@ public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
      * @param response OpenMrc response
      * @return Response in the exchange-specific format
      */
-    default RespOut toExchangeResponse(OpenMrc.Response response) throws OpenMrcMappingException {
+    default Observable<RespOut> toExchangeResponse(OpenMrc.Response response) throws OpenMrcMappingException {
         return toExchangeResponse(null, response);
     }
 
@@ -47,7 +48,7 @@ public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
      * @param response OpenMrc response
      * @return Response in the exchange-specific format
      */
-    RespOut toExchangeResponse(@Nullable OpenMrc.Request request, OpenMrc.Response response) throws OpenMrcMappingException;
+    Observable<RespOut> toExchangeResponse(@Nullable OpenMrc.Request request, OpenMrc.Response response) throws OpenMrcMappingException;
 
     /**
      * Converts an exchange-specific request to OpenMrc.
@@ -55,7 +56,7 @@ public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
      * @param request Request in the exchange-specific format
      * @return OpenMrc request
      */
-    OpenMrc.Request.Builder toOpenMrcRequest(ReqIn request) throws OpenMrcMappingException;
+    Observable<OpenMrc.Request.Builder> toOpenMrcRequest(ReqIn request) throws OpenMrcMappingException;
 
     /**
      * Converts a n exchange-specific response to OpenMrc.
@@ -63,7 +64,7 @@ public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
      * @param response The response
      * @return OpenMrc response
      */
-    default OpenMrc.Response.Builder toOpenMrcResponse(RespIn response) throws OpenMrcMappingException {
+    default Observable<OpenMrc.Response.Builder> toOpenMrcResponse(RespIn response) throws OpenMrcMappingException {
         return toOpenMrcResponse(null, response);
     }
 
@@ -74,6 +75,6 @@ public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
      * @param response The response
      * @return OpenMrc response
      */
-    OpenMrc.Response.Builder toOpenMrcResponse(@Nullable ReqIn request, RespIn response) throws OpenMrcMappingException;
+    Observable<OpenMrc.Response.Builder> toOpenMrcResponse(@Nullable ReqIn request, RespIn response) throws OpenMrcMappingException;
 
 }

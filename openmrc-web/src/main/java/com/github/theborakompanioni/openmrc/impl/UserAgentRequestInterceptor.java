@@ -2,6 +2,7 @@ package com.github.theborakompanioni.openmrc.impl;
 
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
 import com.google.common.base.Strings;
+import io.reactivex.Observable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -19,9 +20,11 @@ public class UserAgentRequestInterceptor extends ExtensionHttpRequestInterceptor
     }
 
     @Override
-    protected Optional<OpenMrcExtensions.UserAgent> extract(HttpServletRequest context) {
-        Optional<String> userAgent = Optional.ofNullable(context.getHeader(HTTP_HEADER_USER_AGENT))
-                .map(Strings::emptyToNull);
+    protected Observable<OpenMrcExtensions.UserAgent> extract(HttpServletRequest context) {
+        Observable<String> userAgent = Optional.ofNullable(context.getHeader(HTTP_HEADER_USER_AGENT))
+                .map(Strings::emptyToNull)
+                .map(Observable::just)
+                .orElse(Observable.empty());
 
         return userAgent.map(val -> OpenMrcExtensions.UserAgent.newBuilder()
                 .setValue(val)

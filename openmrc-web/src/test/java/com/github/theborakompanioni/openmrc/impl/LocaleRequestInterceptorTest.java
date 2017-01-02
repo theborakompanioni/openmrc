@@ -40,9 +40,10 @@ public class LocaleRequestInterceptorTest {
         assertThat(localeRequestInterceptor.hasDefaultValue(), is(false));
 
         assertThat(localeRequestInterceptor.extract(withoutLocale), is(notNullValue()));
-        assertThat(localeRequestInterceptor.extract(withoutLocale).isPresent(), is(false));
+        assertThat(localeRequestInterceptor.extract(withoutLocale).isEmpty().blockingGet(), is(true));
 
-        OpenMrc.Request.Builder requestBuilder = localeRequestInterceptor.intercept(withoutLocale, openMrcRequestBuilder);
+        OpenMrc.Request.Builder requestBuilder = localeRequestInterceptor.intercept(withoutLocale, openMrcRequestBuilder)
+                .blockingSingle();
         assertThat(requestBuilder, is(notNullValue()));
         assertThat(requestBuilder.hasExtension(OpenMrcExtensions.Locale.locale), is(false));
     }
@@ -52,9 +53,10 @@ public class LocaleRequestInterceptorTest {
         assertThat(localeRequestInterceptor.hasDefaultValue(), is(true));
 
         assertThat(localeRequestInterceptor.extract(withoutLocale), is(notNullValue()));
-        assertThat(localeRequestInterceptor.extract(withoutLocale).isPresent(), is(false));
+        assertThat(localeRequestInterceptor.extract(withoutLocale).isEmpty().blockingGet(), is(true));
 
-        OpenMrc.Request.Builder requestBuilder = localeRequestInterceptor.intercept(withoutLocale, openMrcRequestBuilder);
+        OpenMrc.Request.Builder requestBuilder = localeRequestInterceptor.intercept(withoutLocale, openMrcRequestBuilder)
+                .blockingSingle();
         assertThat(requestBuilder, is(notNullValue()));
         assertThat(requestBuilder.hasExtension(OpenMrcExtensions.Locale.locale), is(true));
         assertThat(requestBuilder.getExtension(OpenMrcExtensions.Locale.locale).getCountry(), is(localeRequestInterceptor.getDefaultValue().getCountry()));
@@ -63,11 +65,12 @@ public class LocaleRequestInterceptorTest {
     @Test
     public void itShouldReturnLocaleOnRequestWithLocale() throws Exception {
         assertThat(localeRequestInterceptor.extract(withLocale), is(notNullValue()));
-        assertThat(localeRequestInterceptor.extract(withLocale).isPresent(), is(true));
-        assertThat(localeRequestInterceptor.extract(withLocale).get().getCountry(), is(Locale.JAPAN.getCountry()));
-        assertThat(localeRequestInterceptor.extract(withLocale).get().getLanguage(), is(Locale.JAPAN.getLanguage()));
+        assertThat(localeRequestInterceptor.extract(withLocale).isEmpty().blockingGet(), is(false));
+        assertThat(localeRequestInterceptor.extract(withLocale).blockingSingle().getCountry(), is(Locale.JAPAN.getCountry()));
+        assertThat(localeRequestInterceptor.extract(withLocale).blockingSingle().getLanguage(), is(Locale.JAPAN.getLanguage()));
 
-        OpenMrc.Request.Builder requestBuilder = localeRequestInterceptor.intercept(withLocale, openMrcRequestBuilder);
+        OpenMrc.Request.Builder requestBuilder = localeRequestInterceptor.intercept(withLocale, openMrcRequestBuilder)
+                .blockingSingle();
         assertThat(requestBuilder, is(notNullValue()));
         assertThat(requestBuilder.hasExtension(OpenMrcExtensions.Locale.locale), is(true));
         assertThat(requestBuilder.getExtension(OpenMrcExtensions.Locale.locale).getCountry(), is(Locale.JAPAN.getCountry()));

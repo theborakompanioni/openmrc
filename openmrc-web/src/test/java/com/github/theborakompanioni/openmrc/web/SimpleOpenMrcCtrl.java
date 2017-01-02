@@ -29,7 +29,8 @@ public class SimpleOpenMrcCtrl {
     @RequestMapping(value = "/consume", method = RequestMethod.POST)
     public ResponseEntity<Void> trackMapping(HttpServletRequest request) {
         try {
-            HttpServletResponse response = openMrcService.apply(request);
+            HttpServletResponse response = openMrcService.apply(request)
+                    .blockingSingle();
             return ResponseEntity.status(response.getStatus()).build();
         } catch (RuntimeException | Error e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

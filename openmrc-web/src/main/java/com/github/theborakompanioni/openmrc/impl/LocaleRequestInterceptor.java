@@ -1,6 +1,7 @@
 package com.github.theborakompanioni.openmrc.impl;
 
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
+import io.reactivex.Observable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
@@ -27,8 +28,10 @@ public class LocaleRequestInterceptor extends ExtensionHttpRequestInterceptorSup
     }
 
     @Override
-    protected Optional<OpenMrcExtensions.Locale> extract(HttpServletRequest context) {
-        Optional<Locale> locale = Optional.ofNullable(context.getLocale());
+    protected Observable<OpenMrcExtensions.Locale> extract(HttpServletRequest context) {
+        Observable<Locale> locale = Optional.ofNullable(context.getLocale())
+                .map(Observable::just)
+                .orElse(Observable.empty());
 
         return locale.map(val -> OpenMrcExtensions.Locale.newBuilder()
                 .setCountry(val.getCountry())

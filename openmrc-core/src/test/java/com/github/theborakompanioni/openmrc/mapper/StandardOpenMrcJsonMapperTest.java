@@ -44,7 +44,9 @@ public class StandardOpenMrcJsonMapperTest {
     public void testParseInitialRequestWithExtensions() throws JsonFormat.ParseException {
         String jsonFormat = InitialRequests.json().initialRequestWithBrowserExtension();
 
-        OpenMrc.Request parsedRequest = mapper.toOpenMrcRequest(jsonFormat).build();
+        OpenMrc.Request parsedRequest = mapper.toOpenMrcRequest(jsonFormat)
+                .blockingSingle()
+                .build();
         assertThat(parsedRequest.getInitial().getState().getCode(), is(2));
         assertThat(parsedRequest.getInitial().getState().getState(), is(equalTo(OpenMrc.Visibility.fullyvisible)));
         assertThat(parsedRequest.getInitial().getState().getPercentage(), is(0.99f));
@@ -56,9 +58,13 @@ public class StandardOpenMrcJsonMapperTest {
     @Test
     @Parameters(method = "validRequestJsonParams")
     public void itShouldBeAbleToParseValidRequestJson(String requestJson) throws JsonFormat.ParseException {
-        OpenMrc.Request parsedRequest = mapper.toOpenMrcRequest(requestJson).build();
-        String parsedRequestJson = mapper.toExchangeRequest(parsedRequest);
-        OpenMrc.Request parsedSerializedRequest = mapper.toOpenMrcRequest(parsedRequestJson).build();
+        OpenMrc.Request parsedRequest = mapper.toOpenMrcRequest(requestJson)
+                .blockingSingle()
+                .build();
+        String parsedRequestJson = mapper.toExchangeRequest(parsedRequest).blockingSingle();
+        OpenMrc.Request parsedSerializedRequest = mapper.toOpenMrcRequest(parsedRequestJson)
+                .blockingSingle()
+                .build();
 
         assertThat(parsedSerializedRequest, is(equalTo(parsedRequest)));
     }
@@ -74,7 +80,9 @@ public class StandardOpenMrcJsonMapperTest {
     @Test(expected = OpenMrcMapper.OpenMrcMappingException.class)
     @Parameters(method = "invalidRequestJsonParams")
     public void itShouldThrowExceptionWhenParsingInvalidRequestJson(String invalidRequestJson) {
-        OpenMrc.Request parsedRequest = mapper.toOpenMrcRequest(invalidRequestJson).build();
+        OpenMrc.Request parsedRequest = mapper.toOpenMrcRequest(invalidRequestJson)
+                .blockingSingle()
+                .build();
         fail("Should have thrown exception when parsing invalid Request in json format");
     }
 
@@ -91,9 +99,11 @@ public class StandardOpenMrcJsonMapperTest {
     @Test
     @Parameters(method = "requestProtobufParams")
     public void itShouldBeAbleToSerializeRequestToJson(OpenMrc.Request request) throws JsonFormat.ParseException {
-        String requestAsJsonString = mapper.toExchangeRequest(request);
+        String requestAsJsonString = mapper.toExchangeRequest(request).blockingSingle();
 
-        OpenMrc.Request parsedSerializedRequest = mapper.toOpenMrcRequest(requestAsJsonString).build();
+        OpenMrc.Request parsedSerializedRequest = mapper.toOpenMrcRequest(requestAsJsonString)
+                .blockingSingle()
+                .build();
 
         assertThat(parsedSerializedRequest, is(equalTo(request)));
     }

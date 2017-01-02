@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
+import io.reactivex.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -13,7 +14,6 @@ import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -58,49 +58,50 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
     }
 
     @Override
-    public HttpServletRequest toExchangeRequest(@Nullable OpenMrc.Request request) throws OpenMrcMappingException {
+    public Observable<HttpServletRequest> toExchangeRequest(@Nullable OpenMrc.Request request) throws OpenMrcMappingException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public OpenMrc.Response.Builder toOpenMrcResponse(@Nullable HttpServletRequest request, HttpServletResponse response) throws OpenMrcMappingException {
+    public Observable<OpenMrc.Response.Builder> toOpenMrcResponse(@Nullable HttpServletRequest request, HttpServletResponse response) throws OpenMrcMappingException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public HttpServletResponse toExchangeResponse(@Nullable OpenMrc.Request request, OpenMrc.Response response) throws OpenMrcMappingException {
+    public Observable<HttpServletResponse> toExchangeResponse(@Nullable OpenMrc.Request request, OpenMrc.Response response) throws OpenMrcMappingException {
         MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
         mockHttpServletResponse.setStatus(getStatusCode.apply(response));
 
-        try {
-            mockHttpServletResponse.getWriter().write(openMrcJsonMapper.toExchangeResponse(request, response));
-
-            return mockHttpServletResponse;
-        } catch (UnsupportedEncodingException e) {
-            throw new OpenMrcMappingException(e);
-        }
+        return openMrcJsonMapper.toExchangeResponse(request, response)
+                .map(body -> {
+                    mockHttpServletResponse.getWriter().write(body);
+                    return mockHttpServletResponse;
+                });
     }
 
     @Override
-    public OpenMrc.Request.Builder toOpenMrcRequest(HttpServletRequest request) throws OpenMrcMappingException {
+    public Observable<OpenMrc.Request.Builder> toOpenMrcRequest(HttpServletRequest request) throws OpenMrcMappingException {
         return createBuilder(request);
     }
 
-    private OpenMrc.Request.Builder createBuilder(HttpServletRequest context) {
-        try {
-            String jsonRequestBody = readRequestBodyAsJson(context).toString();
+    private Observable<OpenMrc.Request.Builder> createBuilder(HttpServletRequest context) {
+        Observable<String> jsonRequestBody = Observable.defer(() -> {
+            try {
+                return Observable.just(readRequestBodyAsJson(context).toString());
+            } catch (IOException e) {
+                log.error("IOExeption while parsing HttpServletRequest as OpenMrc.Request", e);
+                throw new OpenMrcMappingException(e);
+            }
+        });
 
-            OpenMrc.Request.Builder builderFromJson = openMrcJsonMapper.toOpenMrcRequest(jsonRequestBody);
+        Observable<OpenMrc.Request.Builder> builderFromJson = jsonRequestBody.flatMap(openMrcJsonMapper::toOpenMrcRequest);
 
-            return requestInterceptor.stream()
-                    .reduce(builderFromJson,
-                            (b, interceptor) -> interceptor.intercept(context, b),
-                            (b1, b2) -> b1.mergeFrom(b2.buildPartial()));
-
-        } catch (IOException e) {
-            log.error("IOExeption while parsing HttpServletRequest as OpenMrc.Request", e);
-            throw new OpenMrcMappingException(e);
-        }
+        return builderFromJson.flatMap(builder -> {
+            return Observable.fromIterable(requestInterceptor)
+                    .flatMap(interceptor -> interceptor.intercept(context, builder))
+                    .reduce((b1, b2) -> b1.mergeFrom(b2.buildPartial()))
+                    .toObservable();
+        });
     }
 
     private ObjectMapper createObjectMapper() {
