@@ -1,7 +1,6 @@
 package com.github.theborakompanioni.openmrc;
 
-import com.github.theborakompanioni.openmrc.mapper.OpenMrcJsonMapper;
-import com.github.theborakompanioni.openmrc.mapper.OpenMrcMapper;
+import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcMapper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.protobuf.UninitializedMessageException;
@@ -29,6 +28,7 @@ public abstract class OpenMrcRequestServiceSupport<Req, Res> implements OpenMrcR
     public OpenMrcRequestServiceSupport(OpenMrcMapper<Req, Res, Req, Res> mapper) {
         this(mapper, ImmutableList.of());
     }
+
     public OpenMrcRequestServiceSupport(OpenMrcMapper<Req, Res, Req, Res> mapper, List<OpenMrcRequestConsumer> requestConsumer) {
         this.mapper = requireNonNull(mapper);
         this.requestConsumer = requestConsumer;
