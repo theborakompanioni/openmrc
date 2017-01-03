@@ -19,12 +19,14 @@ public class StandardOpenMrcJsonMapper implements OpenMrcJsonMapper {
 
     private final Meter invalidRequests;
     private final Meter validRequests;
+    private final Meter parseErrors;
     private final JsonFormat jsonFormat;
 
     public StandardOpenMrcJsonMapper(ExtensionRegistry extensionRegistry, MetricRegistry metricRegistry) {
         this.extensionRegistry = requireNonNull(extensionRegistry);
         this.invalidRequests = requireNonNull(metricRegistry.meter("openmrc.request.invalid"));
         this.validRequests = requireNonNull(metricRegistry.meter("openmrc.request.valid"));
+        this.parseErrors = requireNonNull(metricRegistry.meter("openmrc.request.parseError"));
 
         this.validator = new OpenMrcValidator();
         this.jsonFormat = new JsonFormat();
@@ -55,6 +57,7 @@ public class StandardOpenMrcJsonMapper implements OpenMrcJsonMapper {
         try {
             jsonFormat.merge(request, extensionRegistry, builder);
         } catch (Exception e) {
+            parseErrors.mark();
             throw new OpenMrcMappingException(e);
         }
 
