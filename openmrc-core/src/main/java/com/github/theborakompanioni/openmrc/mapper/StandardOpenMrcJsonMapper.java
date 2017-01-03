@@ -1,4 +1,4 @@
-package com.github.theborakompanioni.openmrc.spring.mapper;
+package com.github.theborakompanioni.openmrc.mapper;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;

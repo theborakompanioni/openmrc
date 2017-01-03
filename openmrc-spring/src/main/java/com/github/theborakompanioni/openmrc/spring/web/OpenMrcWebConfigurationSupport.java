@@ -10,7 +10,7 @@ import com.github.theborakompanioni.openmrc.spring.impl.ReferrerRequestIntercept
 import com.github.theborakompanioni.openmrc.spring.impl.UserAgentRequestInterceptor;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
 import com.github.theborakompanioni.openmrc.spring.mapper.StandardOpenMrcJsonHttpRequestMapper;
-import com.github.theborakompanioni.openmrc.spring.mapper.StandardOpenMrcJsonMapper;
+import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
 import com.google.protobuf.ExtensionRegistry;
 
 import javax.servlet.http.HttpServletRequest;

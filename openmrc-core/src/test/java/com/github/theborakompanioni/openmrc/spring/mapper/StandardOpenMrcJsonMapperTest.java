@@ -4,6 +4,8 @@ package com.github.theborakompanioni.openmrc.spring.mapper;
 import com.codahale.metrics.MetricRegistry;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
+import com.github.theborakompanioni.openmrc.mapper.OpenMrcMapper;
+import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
 import com.github.theborakompanioni.openmrc.mother.InitialRequests;
 import com.github.theborakompanioni.openmrc.mother.StatusRequests;
 import com.google.protobuf.ExtensionRegistry;
