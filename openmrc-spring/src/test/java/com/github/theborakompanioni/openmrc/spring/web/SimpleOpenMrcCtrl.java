@@ -1,5 +1,6 @@
 package com.github.theborakompanioni.openmrc.spring.web;
 
+import com.github.theborakompanioni.openmrc.OpenMrcRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/test/openmrc")
 public class SimpleOpenMrcCtrl {
 
-    private final OpenMrcHttpRequestService openMrcService;
+    private final OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>> openMrcService;
 
     @Autowired
-    public SimpleOpenMrcCtrl(OpenMrcHttpRequestService openMrcService) {
+    public SimpleOpenMrcCtrl(OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>> openMrcService) {
         this.openMrcService = openMrcService;
     }
 

@@ -5,12 +5,12 @@ import com.github.theborakompanioni.openmrc.LoggingRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
+import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
 import com.github.theborakompanioni.openmrc.spring.impl.LocaleRequestInterceptor;
 import com.github.theborakompanioni.openmrc.spring.impl.ReferrerRequestInterceptor;
 import com.github.theborakompanioni.openmrc.spring.impl.UserAgentRequestInterceptor;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
 import com.github.theborakompanioni.openmrc.spring.mapper.StandardOpenMrcJsonHttpRequestMapper;
-import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
 import com.google.protobuf.ExtensionRegistry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,14 +36,18 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
     }
 
     @Override
-    public OpenMrcHttpRequestMapper httpRequestMapper() {
-        StandardOpenMrcJsonMapper standardOpenMrcJsonMapper = new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
-        return new StandardOpenMrcJsonHttpRequestMapper(standardOpenMrcJsonMapper, httpRequestInterceptor());
+    public OpenMrcHttpRequestService openMrcRequestService() {
+        return new OpenMrcHttpRequestService(openMrcRequestMapper(),
+                openMrcResponseSupplier(),
+                openMrcRequestInterceptor(),
+                openMrcRequestConsumer()
+        );
     }
 
     @Override
-    public OpenMrcHttpRequestService httpRequestService() {
-        return new OpenMrcHttpRequestService(httpRequestMapper(), openMrcRequestConsumer());
+    public OpenMrcHttpRequestMapper openMrcRequestMapper() {
+        StandardOpenMrcJsonMapper standardOpenMrcJsonMapper = new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
+        return new StandardOpenMrcJsonHttpRequestMapper(standardOpenMrcJsonMapper);
     }
 
     @Override
@@ -52,7 +56,7 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
     }
 
     @Override
-    public List<OpenMrcRequestInterceptor<HttpServletRequest>> httpRequestInterceptor() {
+    public List<OpenMrcRequestInterceptor<HttpServletRequest>> openMrcRequestInterceptor() {
         return Arrays.asList(
                 new UserAgentRequestInterceptor(),
                 new ReferrerRequestInterceptor(),

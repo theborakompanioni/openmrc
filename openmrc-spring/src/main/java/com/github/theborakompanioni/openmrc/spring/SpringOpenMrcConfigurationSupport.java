@@ -3,6 +3,7 @@ package com.github.theborakompanioni.openmrc.spring;
 import com.codahale.metrics.MetricRegistry;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
+import com.github.theborakompanioni.openmrc.OpenMrcResponseSupplier;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
 import com.github.theborakompanioni.openmrc.spring.web.OpenMrcHttpRequestService;
 import com.github.theborakompanioni.openmrc.spring.web.OpenMrcWebConfigurationSupport;
@@ -31,6 +32,10 @@ public abstract class SpringOpenMrcConfigurationSupport extends OpenMrcWebConfig
 
     @Override
     @Bean
+    public abstract OpenMrcResponseSupplier openMrcResponseSupplier();
+
+    @Override
+    @Bean
     public MetricRegistry metricsRegistry() {
         return super.metricsRegistry();
     }
@@ -43,14 +48,14 @@ public abstract class SpringOpenMrcConfigurationSupport extends OpenMrcWebConfig
 
     @Override
     @Bean
-    public OpenMrcHttpRequestMapper httpRequestMapper() {
-        return super.httpRequestMapper();
+    public OpenMrcHttpRequestMapper openMrcRequestMapper() {
+        return super.openMrcRequestMapper();
     }
 
     @Override
     @Bean
-    public OpenMrcHttpRequestService httpRequestService() {
-        return super.httpRequestService();
+    public OpenMrcHttpRequestService openMrcRequestService() {
+        return super.openMrcRequestService();
     }
 
     @Override
@@ -69,12 +74,12 @@ public abstract class SpringOpenMrcConfigurationSupport extends OpenMrcWebConfig
 
     @Override
     @Bean
-    public List<OpenMrcRequestInterceptor<HttpServletRequest>> httpRequestInterceptor() {
+    public List<OpenMrcRequestInterceptor<HttpServletRequest>> openMrcRequestInterceptor() {
         List<OpenMrcRequestInterceptor<HttpServletRequest>> interceptors = Lists.newArrayList(this.requestInterceptors);
 
         if (interceptors.isEmpty()) {
             log.warn("No request interceptors found. Registering standard interceptors.");
-            interceptors.addAll(super.httpRequestInterceptor());
+            interceptors.addAll(super.openMrcRequestInterceptor());
         }
 
         log.info("registering {} request interceptor(s): {}", interceptors.size(), interceptors);

@@ -26,8 +26,6 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
 
     private final StandardOpenMrcJsonMapper openMrcJsonMapper;
 
-    private final List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptor;
-
     // TODO: try to get rid of dependency
     private final ObjectMapper mapper;
 
@@ -47,13 +45,7 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
     };
 
     public StandardOpenMrcJsonHttpRequestMapper(StandardOpenMrcJsonMapper standardOpenMrcJsonMapper) {
-        this(standardOpenMrcJsonMapper, Collections.emptyList());
-    }
-
-    public StandardOpenMrcJsonHttpRequestMapper(StandardOpenMrcJsonMapper standardOpenMrcJsonMapper,
-                                                List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptor) {
         this.openMrcJsonMapper = requireNonNull(standardOpenMrcJsonMapper);
-        this.requestInterceptor = requireNonNull(requestInterceptor);
         this.mapper = createObjectMapper();
     }
 
@@ -91,12 +83,7 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
 
         Observable<OpenMrc.Request.Builder> builderFromJson = jsonRequestBody.flatMap(openMrcJsonMapper::toOpenMrcRequest);
 
-        return builderFromJson.flatMap(builder -> {
-            return Observable.fromIterable(requestInterceptor)
-                    .flatMap(interceptor -> interceptor.intercept(context, builder))
-                    .reduce((b1, b2) -> b1.mergeFrom(b2.buildPartial()))
-                    .toObservable();
-        });
+        return builderFromJson;
     }
 
     private ObjectMapper createObjectMapper() {

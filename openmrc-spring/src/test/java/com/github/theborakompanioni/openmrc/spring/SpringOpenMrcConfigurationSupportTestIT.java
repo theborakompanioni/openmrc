@@ -3,6 +3,8 @@ package com.github.theborakompanioni.openmrc.spring;
 import com.codahale.metrics.MetricRegistry;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
+import com.github.theborakompanioni.openmrc.OpenMrcResponseSupplier;
+import com.github.theborakompanioni.openmrc.spring.example.ExampleOpenMrcHttpResponseSupplier;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
 import com.github.theborakompanioni.openmrc.spring.web.OpenMrcHttpRequestService;
 import com.google.protobuf.ExtensionRegistry;
@@ -30,6 +32,10 @@ public class SpringOpenMrcConfigurationSupportTestIT {
 
     @SpringBootApplication
     public static class SpringOpenMrcConfigurationSupportImpl extends SpringOpenMrcConfigurationSupport {
+        @Override
+        public OpenMrcResponseSupplier openMrcResponseSupplier() {
+            return new ExampleOpenMrcHttpResponseSupplier();
+        }
     }
 
     @Autowired
