@@ -3,9 +3,9 @@ package com.github.theborakompanioni.openmrc.spring;
 import com.codahale.metrics.MetricRegistry;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestService;
 import com.github.theborakompanioni.openmrc.OpenMrcResponseSupplier;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
-import com.github.theborakompanioni.openmrc.spring.web.OpenMrcHttpRequestService;
 import com.github.theborakompanioni.openmrc.spring.web.OpenMrcWebConfigurationSupport;
 import com.google.common.collect.Lists;
 import com.google.protobuf.ExtensionRegistry;
@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -54,14 +55,14 @@ public abstract class SpringOpenMrcConfigurationSupport extends OpenMrcWebConfig
 
     @Override
     @Bean
-    public OpenMrcHttpRequestService openMrcRequestService() {
+    public OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>> openMrcRequestService() {
         return super.openMrcRequestService();
     }
 
     @Override
     @Bean
     public List<OpenMrcRequestConsumer> openMrcRequestConsumer() {
-        List<OpenMrcRequestConsumer> consumers = Lists.newArrayList(requestConsumers);
+        List<OpenMrcRequestConsumer> consumers = Lists.newArrayList(this.requestConsumers);
 
         if (consumers.isEmpty()) {
             log.warn("No request consumer found. Registering standard consumers.");

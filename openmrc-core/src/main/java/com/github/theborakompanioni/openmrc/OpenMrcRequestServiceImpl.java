@@ -1,6 +1,5 @@
 package com.github.theborakompanioni.openmrc;
 
-import com.github.theborakompanioni.openmrc.mapper.OpenMrcMapper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.protobuf.UninitializedMessageException;

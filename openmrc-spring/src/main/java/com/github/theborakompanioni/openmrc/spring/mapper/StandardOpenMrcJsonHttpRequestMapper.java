@@ -4,8 +4,7 @@ package com.github.theborakompanioni.openmrc.spring.mapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.theborakompanioni.openmrc.OpenMrc;
-import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
-import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
+import com.github.theborakompanioni.openmrc.json.StandardOpenMrcJsonMapper;
 import io.reactivex.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;

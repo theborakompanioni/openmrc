@@ -1,4 +1,4 @@
-package com.github.theborakompanioni.openmrc.mapper;
+package com.github.theborakompanioni.openmrc;
 
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import io.reactivex.Observable;

@@ -1,4 +1,4 @@
-package com.github.theborakompanioni.openmrc.mapper;
+package com.github.theborakompanioni.openmrc.json;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;

@@ -27,8 +27,7 @@ public class SimpleOpenMrcTestConfiguration extends WebMvcConfigurerAdapter {
 
     @Bean
     public SimpleOpenMrcCtrl simpleOpenMrcCtrl() {
-        return new SimpleOpenMrcCtrl(
-                (OpenMrcHttpRequestService) openMrcWebConfiguration().openMrcRequestService());
+        return new SimpleOpenMrcCtrl(openMrcWebConfiguration().openMrcRequestService());
     }
 
     @Bean

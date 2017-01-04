@@ -46,26 +46,21 @@ public abstract class ExtensionRequestInterceptorSupport<T, EXT extends Generate
         }
 
         return Observable.defer(() -> {
-            try {
-                final Observable<Optional<EXT>> extractedValue = extract(context)
-                        .switchIfEmpty(getDefaultValueObservable())
-                        .doOnError(e -> {
-                            String extensionName = extension.getDescriptor().getFullName();
-                            log.warn("Exception while extracting " + extensionName + " from HttpRequest", e);
-                        })
-                        .onErrorResumeNext(Observable.empty())
-                        .map(Optional::ofNullable);
+            final Observable<Optional<EXT>> extractedValue = extract(context)
+                    .switchIfEmpty(getDefaultValueObservable())
+                    .doOnError(e -> {
+                        String extensionName = extension.getDescriptor().getFullName();
+                        log.warn("Exception while extracting " + extensionName + " from HttpRequest", e);
+                    })
+                    .onErrorResumeNext(Observable.empty())
+                    .map(Optional::ofNullable);
 
-                return extractedValue.map(val -> {
-                    if (val.isPresent()) {
-                        builder.setExtension(extension, val.get());
-                    }
-                    return builder;
-                }).switchIfEmpty(Observable.just(builder));
-            } catch (Exception e) {
-
-            }
-            return Observable.just(builder);
+            return extractedValue.map(val -> {
+                if (val.isPresent()) {
+                    builder.setExtension(extension, val.get());
+                }
+                return builder;
+            }).switchIfEmpty(Observable.just(builder));
         });
     }
 

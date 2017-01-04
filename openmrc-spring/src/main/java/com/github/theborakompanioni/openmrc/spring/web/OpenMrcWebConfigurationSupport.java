@@ -1,58 +1,23 @@
 package com.github.theborakompanioni.openmrc.spring.web;
 
-import com.codahale.metrics.MetricRegistry;
-import com.github.theborakompanioni.openmrc.LoggingRequestConsumer;
-import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
-import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
+import com.github.theborakompanioni.openmrc.json.StandardOpenMrcJsonMapper;
 import com.github.theborakompanioni.openmrc.spring.impl.LocaleRequestInterceptor;
 import com.github.theborakompanioni.openmrc.spring.impl.ReferrerRequestInterceptor;
 import com.github.theborakompanioni.openmrc.spring.impl.UserAgentRequestInterceptor;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
 import com.github.theborakompanioni.openmrc.spring.mapper.StandardOpenMrcJsonHttpRequestMapper;
-import com.google.protobuf.ExtensionRegistry;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfiguration {
-    @Override
-    public MetricRegistry metricsRegistry() {
-        return new MetricRegistry();
-    }
-
-    @Override
-    public ExtensionRegistry extensionRegistry() {
-        ExtensionRegistry registry = ExtensionRegistry.newInstance();
-        registry.add(OpenMrcExtensions.Browser.browser);
-        registry.add(OpenMrcExtensions.OperatingSystem.operatingSystem);
-        registry.add(OpenMrcExtensions.UserAgent.userAgent);
-        registry.add(OpenMrcExtensions.Locale.locale);
-        registry.add(OpenMrcExtensions.Referrer.referrer);
-        return registry;
-    }
-
-    @Override
-    public OpenMrcHttpRequestService openMrcRequestService() {
-        return new OpenMrcHttpRequestService(openMrcRequestMapper(),
-                openMrcResponseSupplier(),
-                openMrcRequestInterceptor(),
-                openMrcRequestConsumer()
-        );
-    }
 
     @Override
     public OpenMrcHttpRequestMapper openMrcRequestMapper() {
         StandardOpenMrcJsonMapper standardOpenMrcJsonMapper = new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
         return new StandardOpenMrcJsonHttpRequestMapper(standardOpenMrcJsonMapper);
-    }
-
-    @Override
-    public List<OpenMrcRequestConsumer> openMrcRequestConsumer() {
-        return Collections.singletonList(loggingRequestConsumer());
     }
 
     @Override
@@ -62,9 +27,5 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
                 new ReferrerRequestInterceptor(),
                 new LocaleRequestInterceptor()
         );
-    }
-
-    private LoggingRequestConsumer loggingRequestConsumer() {
-        return new LoggingRequestConsumer();
     }
 }

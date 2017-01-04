@@ -1,6 +1,7 @@
-package com.github.theborakompanioni.openmrc.mapper;
+package com.github.theborakompanioni.openmrc.json;
 
 import com.github.theborakompanioni.openmrc.OpenMrc;
+import com.github.theborakompanioni.openmrc.OpenMrcMapper;
 import io.reactivex.Observable;
 
 import javax.annotation.Nullable;
@@ -9,7 +10,6 @@ import javax.annotation.Nullable;
  * Converts between OpenMrc and json requests/response.
  */
 public interface OpenMrcJsonMapper extends OpenMrcMapper<String, String, String, String> {
-
 
     @Override
     default Observable<String> toExchangeRequest(@Nullable OpenMrc.Request request) {
