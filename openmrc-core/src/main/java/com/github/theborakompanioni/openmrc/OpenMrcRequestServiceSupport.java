@@ -31,7 +31,7 @@ public abstract class OpenMrcRequestServiceSupport<Req, Res> implements OpenMrcR
 
     public OpenMrcRequestServiceSupport(OpenMrcMapper<Req, Res, Req, Res> mapper, List<OpenMrcRequestConsumer> requestConsumer) {
         this.mapper = requireNonNull(mapper);
-        this.requestConsumer = requestConsumer;
+        this.requestConsumer = requireNonNull(requestConsumer);
     }
 
     @Override
@@ -55,15 +55,15 @@ public abstract class OpenMrcRequestServiceSupport<Req, Res> implements OpenMrcR
         final Observable<Res> resObservable = responseBuilder.flatMap(m -> Observable.fromIterable(m.entrySet()))
                 .firstElement()
                 .toObservable()
-                .flatMap(pair -> mapper.toExchangeResponse(pair.getKey(), pair.getValue().build()));
+                .flatMap(pair -> mapper.toExchangeResponse(context, pair.getKey(), pair.getValue().build()));
 
         return resObservable.onErrorResumeNext(throwable -> {
             if (throwable instanceof OpenMrcMapper.OpenMrcMappingException) {
-                return mapper.toExchangeResponse(null, INVALID_REQUEST);
+                return mapper.toExchangeResponse(context, null, INVALID_REQUEST);
             } else if (throwable instanceof UninitializedMessageException) {
-                return mapper.toExchangeResponse(null, INVALID_REQUEST);
+                return mapper.toExchangeResponse(context, null, INVALID_REQUEST);
             }
-            return mapper.toExchangeResponse(null, UNKNOWN_ERROR);
+            return mapper.toExchangeResponse(context, null, UNKNOWN_ERROR);
 
         });
     }

@@ -17,7 +17,7 @@ public interface OpenMrcJsonMapper extends OpenMrcMapper<String, String, String,
     }
 
     @Override
-    default Observable<String> toExchangeResponse(@Nullable OpenMrc.Request request, OpenMrc.Response response) {
+    default Observable<String> toExchangeResponse(String originalRequest, @Nullable OpenMrc.Request request, OpenMrc.Response response) {
         return  Observable.defer(() -> Observable.just(toJson(request, response)));
     }
 

@@ -62,7 +62,7 @@ public class LocaleRequestInterceptorTest {
                 .blockingSingle();
         assertThat(requestBuilder, is(notNullValue()));
         assertThat(requestBuilder.hasExtension(OpenMrcExtensions.Locale.locale), is(true));
-        assertThat(requestBuilder.getExtension(OpenMrcExtensions.Locale.locale).getCountry(), is(localeRequestInterceptor.getDefaultValue().getCountry()));
+        assertThat(requestBuilder.getExtension(OpenMrcExtensions.Locale.locale).getCountry(), is(localeRequestInterceptor.getDefaultValue().get().getCountry()));
     }
 
     @Test

@@ -68,9 +68,9 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
     }
 
     @Override
-    public Observable<ResponseEntity<String>> toExchangeResponse(@Nullable OpenMrc.Request request, OpenMrc.Response response) throws OpenMrcMappingException {
+    public Observable<ResponseEntity<String>> toExchangeResponse(HttpServletRequest originalRequest, @Nullable OpenMrc.Request request, OpenMrc.Response response) throws OpenMrcMappingException {
         ResponseEntity.BodyBuilder responseEntity = ResponseEntity.status(getStatusCode.apply(response));
-        return openMrcJsonMapper.toExchangeResponse(request, response)
+        return openMrcJsonMapper.toExchangeResponse(null, request, response)
                 .map(responseEntity::body);
     }
 

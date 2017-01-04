@@ -1,29 +1,26 @@
-package com.github.theborakompanioni.openmrc.spring.impl;
+package com.github.theborakompanioni.openmrc;
 
-import com.github.theborakompanioni.openmrc.OpenMrc;
-import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
 import com.google.protobuf.GeneratedMessage;
 import io.reactivex.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
-public abstract class ExtensionHttpRequestInterceptorSupport<EXT extends GeneratedMessage> implements OpenMrcRequestInterceptor<HttpServletRequest> {
+public abstract class ExtensionRequestInterceptorSupport<T, EXT extends GeneratedMessage> implements OpenMrcRequestInterceptor<T> {
 
-    private static final Logger log = LoggerFactory.getLogger(ExtensionHttpRequestInterceptorSupport.class);
+    private static final Logger log = LoggerFactory.getLogger(ExtensionRequestInterceptorSupport.class);
 
     private final GeneratedMessage.GeneratedExtension<OpenMrc.Request, EXT> extension;
     private final Optional<EXT> defaultValue;
 
-    public ExtensionHttpRequestInterceptorSupport(GeneratedMessage.GeneratedExtension<OpenMrc.Request, EXT> extension) {
+    public ExtensionRequestInterceptorSupport(GeneratedMessage.GeneratedExtension<OpenMrc.Request, EXT> extension) {
         this(extension, Optional.empty());
     }
 
-    public ExtensionHttpRequestInterceptorSupport(GeneratedMessage.GeneratedExtension<OpenMrc.Request, EXT> extension, Optional<EXT> defaultValue) {
+    public ExtensionRequestInterceptorSupport(GeneratedMessage.GeneratedExtension<OpenMrc.Request, EXT> extension, Optional<EXT> defaultValue) {
         this.extension = requireNonNull(extension);
         this.defaultValue = requireNonNull(defaultValue);
     }
@@ -32,22 +29,18 @@ public abstract class ExtensionHttpRequestInterceptorSupport<EXT extends Generat
         return defaultValue.isPresent();
     }
 
-    public EXT getDefaultValue() {
-        return defaultValue.orElse(null);
+    public Optional<EXT> getDefaultValue() {
+        return defaultValue;
     }
 
     private Observable<EXT> getDefaultValueObservable() {
-        return Observable.defer(() -> {
-            if (hasDefaultValue()) {
-                return Observable.just(getDefaultValue());
-            } else {
-                return Observable.empty();
-            }
-        });
+        return Observable.defer(() -> getDefaultValue()
+                .map(Observable::just)
+                .orElseGet(Observable::empty));
     }
 
     @Override
-    public Observable<OpenMrc.Request.Builder> intercept(HttpServletRequest context, OpenMrc.Request.Builder builder) {
+    public Observable<OpenMrc.Request.Builder> intercept(T context, OpenMrc.Request.Builder builder) {
         if (builder.hasExtension(extension)) {
             return Observable.just(builder);
         }
@@ -76,5 +69,5 @@ public abstract class ExtensionHttpRequestInterceptorSupport<EXT extends Generat
         });
     }
 
-    protected abstract Observable<EXT> extract(HttpServletRequest context);
+    protected abstract Observable<EXT> extract(T context);
 }

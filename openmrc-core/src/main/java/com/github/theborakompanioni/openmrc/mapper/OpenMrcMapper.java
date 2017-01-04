@@ -34,21 +34,11 @@ public interface OpenMrcMapper<ReqIn, RespIn, ReqOut, RespOut> {
     /**
      * Converts an OpenMrc response to the exchange-specific format.
      *
-     * @param response OpenMrc response
-     * @return Response in the exchange-specific format
-     */
-    default Observable<RespOut> toExchangeResponse(OpenMrc.Response response) throws OpenMrcMappingException {
-        return toExchangeResponse(null, response);
-    }
-
-    /**
-     * Converts an OpenMrc response to the exchange-specific format.
-     *
      * @param request  OpenMrc request, if necessary for context or validations
      * @param response OpenMrc response
      * @return Response in the exchange-specific format
      */
-    Observable<RespOut> toExchangeResponse(@Nullable OpenMrc.Request request, OpenMrc.Response response) throws OpenMrcMappingException;
+    Observable<RespOut> toExchangeResponse(@Nullable ReqIn originalRequest, @Nullable OpenMrc.Request request, OpenMrc.Response response) throws OpenMrcMappingException;
 
     /**
      * Converts an exchange-specific request to OpenMrc.

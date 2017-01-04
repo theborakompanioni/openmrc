@@ -1,5 +1,6 @@
 package com.github.theborakompanioni.openmrc.spring.impl;
 
+import com.github.theborakompanioni.openmrc.ExtensionRequestInterceptorSupport;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
 import com.google.common.base.Strings;
 import io.reactivex.Observable;
@@ -7,7 +8,7 @@ import io.reactivex.Observable;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-public class ReferrerRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.Referrer> {
+public class ReferrerRequestInterceptor extends ExtensionRequestInterceptorSupport<HttpServletRequest, OpenMrcExtensions.Referrer> {
 
     private static final OpenMrcExtensions.Referrer UNKNOWN = OpenMrcExtensions.Referrer.newBuilder()
             .setValue("?")
