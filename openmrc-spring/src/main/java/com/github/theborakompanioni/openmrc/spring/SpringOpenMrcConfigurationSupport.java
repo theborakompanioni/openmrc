@@ -5,6 +5,7 @@ import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestService;
 import com.github.theborakompanioni.openmrc.OpenMrcResponseSupplier;
+import com.github.theborakompanioni.openmrc.json.OpenMrcJsonMapper;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
 import com.github.theborakompanioni.openmrc.spring.web.OpenMrcWebConfigurationSupport;
 import com.google.common.collect.Lists;
@@ -51,6 +52,12 @@ public abstract class SpringOpenMrcConfigurationSupport extends OpenMrcWebConfig
     @Bean
     public OpenMrcHttpRequestMapper openMrcRequestMapper() {
         return super.openMrcRequestMapper();
+    }
+
+    @Override
+    @Bean
+    public OpenMrcJsonMapper openMrcJsonMapper() {
+        return super.openMrcJsonMapper();
     }
 
     @Override

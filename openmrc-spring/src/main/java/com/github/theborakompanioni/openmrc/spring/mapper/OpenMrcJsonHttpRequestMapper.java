@@ -4,7 +4,7 @@ package com.github.theborakompanioni.openmrc.spring.mapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.theborakompanioni.openmrc.OpenMrc;
-import com.github.theborakompanioni.openmrc.json.StandardOpenMrcJsonMapper;
+import com.github.theborakompanioni.openmrc.json.OpenMrcJsonMapper;
 import io.reactivex.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +17,11 @@ import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
-public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestMapper {
+public class OpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestMapper {
 
-    private static final Logger log = LoggerFactory.getLogger(StandardOpenMrcJsonHttpRequestMapper.class);
+    private static final Logger log = LoggerFactory.getLogger(OpenMrcJsonHttpRequestMapper.class);
 
-    private final StandardOpenMrcJsonMapper openMrcJsonMapper;
+    private final OpenMrcJsonMapper openMrcJsonMapper;
 
     // TODO: try to get rid of dependency
     private final ObjectMapper mapper;
@@ -41,8 +41,8 @@ public class StandardOpenMrcJsonHttpRequestMapper implements OpenMrcHttpRequestM
         }
     };
 
-    public StandardOpenMrcJsonHttpRequestMapper(StandardOpenMrcJsonMapper standardOpenMrcJsonMapper) {
-        this.openMrcJsonMapper = requireNonNull(standardOpenMrcJsonMapper);
+    public OpenMrcJsonHttpRequestMapper(OpenMrcJsonMapper openMrcJsonMapper) {
+        this.openMrcJsonMapper = requireNonNull(openMrcJsonMapper);
         this.mapper = createObjectMapper();
     }
 
