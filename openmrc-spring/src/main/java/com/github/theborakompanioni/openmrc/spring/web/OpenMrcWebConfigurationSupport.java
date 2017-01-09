@@ -1,11 +1,13 @@
 package com.github.theborakompanioni.openmrc.spring.web;
 
+import com.fasterxml.jackson.databind.Module;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
 import com.github.theborakompanioni.openmrc.json.OpenMrcJsonMapper;
 import com.github.theborakompanioni.openmrc.json.StandardOpenMrcJsonMapper;
 import com.github.theborakompanioni.openmrc.spring.impl.LocaleRequestInterceptor;
 import com.github.theborakompanioni.openmrc.spring.impl.ReferrerRequestInterceptor;
 import com.github.theborakompanioni.openmrc.spring.impl.UserAgentRequestInterceptor;
+import com.github.theborakompanioni.openmrc.spring.jackson.OpenMrcModule;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcJsonHttpRequestMapper;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +20,10 @@ public abstract class OpenMrcWebConfigurationSupport implements OpenMrcWebConfig
 
     public OpenMrcJsonMapper openMrcJsonMapper() {
         return new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
+    }
+
+    public Module openMrcModule() {
+        return new OpenMrcModule(openMrcJsonMapper());
     }
 
     @Override

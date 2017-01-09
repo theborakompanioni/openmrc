@@ -1,6 +1,7 @@
 package com.github.theborakompanioni.openmrc.spring;
 
 import com.codahale.metrics.MetricRegistry;
+import com.fasterxml.jackson.databind.Module;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestService;
@@ -31,6 +32,12 @@ public abstract class SpringOpenMrcConfigurationSupport extends OpenMrcWebConfig
 
     @Autowired(required = false)
     private List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptors = Collections.emptyList();
+
+    @Override
+    @Bean
+    public Module openMrcModule() {
+        return super.openMrcModule();
+    }
 
     @Override
     @Bean
