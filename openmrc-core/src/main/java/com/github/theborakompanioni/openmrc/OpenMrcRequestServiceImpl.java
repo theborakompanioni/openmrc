@@ -43,15 +43,7 @@ public class OpenMrcRequestServiceImpl<Req, Res> implements OpenMrcRequestServic
     @Override
     public Observable<Res> apply(Req context) {
         Observable<OpenMrc.Request.Builder> requestBuilder = mapper.toOpenMrcRequest(context);
-
-        Observable<OpenMrc.Request.Builder> interceptedRequestBuilder = requestBuilder
-                .flatMap(builder -> Observable.fromIterable(requestInterceptor)
-                        .flatMap(interceptor -> interceptor.intercept(context, builder))
-                        .reduce((b1, b2) -> b1.mergeFrom(b2.buildPartial()))
-                        .toObservable());
-
-        Observable<OpenMrc.Request> request = interceptedRequestBuilder
-                .map(OpenMrc.Request.Builder::build);
+        Observable<OpenMrc.Request> request = buildWithInterceptors(context, requestBuilder);
 
         Observable<Map<OpenMrc.Request, OpenMrc.Response.Builder>> responseBuilder = request
                 .flatMap(req -> {
@@ -80,5 +72,21 @@ public class OpenMrcRequestServiceImpl<Req, Res> implements OpenMrcRequestServic
             return mapper.toExchangeResponse(context, null, UNKNOWN_ERROR);
 
         });
+    }
+
+    private Observable<OpenMrc.Request> buildWithInterceptors(Req context, Observable<OpenMrc.Request.Builder> requestBuilder) {
+        Observable<OpenMrc.Request.Builder> interceptedRequestBuilder = requestBuilder
+                .flatMap(builder -> Observable.fromIterable(requestInterceptor)
+                        .flatMap(interceptor -> interceptor.intercept(context, builder))
+                        .reduce((b1, b2) -> {
+                            if (b1 != b2) {
+                                return b1.mergeFrom(b2.buildPartial());
+                            }
+                            return b1;
+                        })
+                        .toObservable());
+
+        return interceptedRequestBuilder
+                .map(OpenMrc.Request.Builder::build);
     }
 }
