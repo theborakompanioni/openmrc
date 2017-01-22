@@ -23,10 +23,11 @@ public class StandardOpenMrcJsonMapper implements OpenMrcJsonMapper {
     private final JsonFormat jsonFormat;
 
     public StandardOpenMrcJsonMapper(ExtensionRegistry extensionRegistry, MetricRegistry metricRegistry) {
-        this.extensionRegistry = requireNonNull(extensionRegistry);
+        requireNonNull(metricRegistry);
         this.invalidRequests = requireNonNull(metricRegistry.meter("openmrc.request.invalid"));
         this.validRequests = requireNonNull(metricRegistry.meter("openmrc.request.valid"));
         this.parseErrors = requireNonNull(metricRegistry.meter("openmrc.request.parseError"));
+        this.extensionRegistry = requireNonNull(extensionRegistry);
 
         this.validator = new OpenMrcValidator();
         this.jsonFormat = new JsonFormat();

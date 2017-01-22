@@ -10,7 +10,6 @@ import com.github.theborakompanioni.openmrc.spring.impl.UserAgentRequestIntercep
 import com.github.theborakompanioni.openmrc.spring.jackson.OpenMrcModule;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
 import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcJsonHttpRequestMapper;
-import org.springframework.context.annotation.Bean;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;

@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Configuration
+@Import({MetricsConfiguration.class})
 public abstract class SpringOpenMrcConfigurationSupport extends OpenMrcWebConfigurationSupport {
 
     private static final Logger log = LoggerFactory.getLogger(SpringOpenMrcConfigurationSupport.class);
@@ -44,9 +45,12 @@ public abstract class SpringOpenMrcConfigurationSupport extends OpenMrcWebConfig
     @Bean
     public abstract OpenMrcResponseSupplier openMrcResponseSupplier();
 
+    /*
+    * Do not expose as @Bean, as we do that in {@link MetricsConfiguration}
+    * Would really like to inject this bean, but does not work atm due to
+    * circular dependency issues with consumer modules.
+    */
     @Override
-    @Bean
-    @Primary
     public MetricRegistry metricsRegistry() {
         return super.metricsRegistry();
     }

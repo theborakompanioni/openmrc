@@ -1,19 +1,23 @@
 package com.github.theborakompanioni.openmrc;
 
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.SharedMetricRegistries;
 import com.google.protobuf.ExtensionRegistry;
 
 import java.util.Collections;
 import java.util.List;
 
 public interface OpenMrcConfiguration<Req, Res> {
+    default String metricsRegistryName() {
+        return "openmrc";
+    }
 
     OpenMrcMapper<Req, Res, Req, Res> openMrcRequestMapper();
 
     OpenMrcResponseSupplier openMrcResponseSupplier();
 
     default MetricRegistry metricsRegistry() {
-        return new MetricRegistry();
+        return SharedMetricRegistries.getOrCreate(metricsRegistryName());
     }
 
     default ExtensionRegistry extensionRegistry() {
